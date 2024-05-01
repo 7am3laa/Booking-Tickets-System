@@ -4,8 +4,8 @@ import 'package:projectf/Screens/profilescreen.dart';
 import 'package:projectf/constant.dart';
 
 class MainScreen extends StatefulWidget {
-  final Users user;
-  const MainScreen({Key? key, required this.user}) : super(key: key);
+  final Users? user;
+  const MainScreen({Key? key, this.user}) : super(key: key);
   static const String id = 'mainscreen';
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -25,24 +25,18 @@ class _MainScreenState extends State<MainScreen> {
   void _updateBodyScreens() {
     _bodyScreens = [
       Center(
-        child: Text(
-          'Home',
-          style: Styles.headlineStyle1.copyWith(color: Colors.white),
-        ),
+        child: Text('Home', style: Styles.headlineStyle1),
       ),
       Center(
-        child: Text(
-          'Search',
-          style: Styles.headlineStyle1.copyWith(color: Colors.white),
-        ),
+        child: Text('Search',
+            style: Styles.headlineStyle1.copyWith(color: Colors.black)),
       ),
       Center(
-        child: Text(
-          'Tickets',
-          style: Styles.headlineStyle1.copyWith(color: Colors.white),
-        ),
+        child: Text('Tickets', style: Styles.headlineStyle1),
       ),
-      ProfileScreen(user: widget.user),
+      ProfileScreen(
+        user: widget.user,
+      ),
     ];
   }
 
@@ -55,17 +49,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Styles.bgColor,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF0072FF), Color(0xFF00C6FF)],
-          ),
-        ),
-        child: _bodyScreens[_currentIndex],
-      ),
+      body: _bodyScreens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTapItem,

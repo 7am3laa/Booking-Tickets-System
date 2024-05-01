@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isPassword
                                     ? Icons.visibility_off_outlined
                                     : Icons.remove_red_eye_outlined,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                             isobscureText: isPassword,

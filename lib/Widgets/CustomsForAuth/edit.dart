@@ -17,13 +17,17 @@ class EditInfo extends StatelessWidget {
     required this.controller,
     required this.text,
     required this.onChanged,
-    required this.isobscureText, required this.enabled,
+    required this.isobscureText,
+    required this.enabled,
   });
 
   final Users users = Users();
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,8 +36,7 @@ class EditInfo extends StatelessWidget {
           children: [
             Text(
               text,
-              style: Styles.headlineStyle3
-                  .copyWith(fontSize: 20, color: Colors.black),
+              style: Styles.headlineStyle3.copyWith(fontSize: 20, color: color),
             ),
           ],
         ),
@@ -44,16 +47,16 @@ class EditInfo extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           obscureText: isobscureText,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black),
+              borderSide: BorderSide(color: color),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 1),
+              borderSide: BorderSide(color: color, width: 1),
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.black, width: 1),
+              borderSide: BorderSide(color: color, width: 1),
             ),
           ),
         ),

@@ -13,10 +13,10 @@ class Styles {
     color: textColor,
     fontWeight: FontWeight.w500,
   );
+
   static TextStyle headlineStyle1 = TextStyle(
     fontFamily: 'pa',
     fontSize: 26,
-    color: textColor,
     fontWeight: FontWeight.bold,
   );
   static TextStyle headlineStyle2 = TextStyle(
@@ -50,5 +50,9 @@ class AppLayout {
 
   static getWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
+  }
+
+  static getThemeMode(BuildContext context) {
+    return Theme.of(context).brightness;
   }
 }
