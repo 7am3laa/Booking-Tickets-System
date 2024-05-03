@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/DataBase/user.dart';
+import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
 import 'package:projectf/constant.dart';
 
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   void _updateBodyScreens() {
     _bodyScreens = [
       Center(
-        child: Text('Home', style: Styles.headlineStyle1),
+        child: HomeScreen(),
       ),
       Center(
         child: Text('Search',
