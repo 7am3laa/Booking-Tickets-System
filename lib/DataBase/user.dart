@@ -4,11 +4,13 @@ class Users {
   String? password;
   String? fName;
   String? lName;
+  String? phoneNumber;
   Users({
     this.id,
     this.name,
     this.password,
     this.fName,
     this.lName,
+    this.phoneNumber,
   });
 }

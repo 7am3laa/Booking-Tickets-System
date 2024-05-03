@@ -36,7 +36,8 @@ class EditInfo extends StatelessWidget {
           children: [
             Text(
               text,
-              style: Styles.headlineStyle3.copyWith(fontSize: 20, color: color),
+              style: Styles.headlineStyle3.copyWith(
+                  fontSize: 20, color: enabled == false ? Colors.grey : color),
             ),
           ],
         ),
@@ -54,7 +55,8 @@ class EditInfo extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: color, width: 1),
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: color, width: 1),
             ),

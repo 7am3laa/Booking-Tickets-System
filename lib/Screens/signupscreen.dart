@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _lNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   bool isPassword = true;
   DataBaseHandler dataBaseHandler = DataBaseHandler();
 
@@ -31,11 +32,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String password = _passwordController.text;
     String fName = _fNameController.text;
     String lName = _lNameController.text;
-    if (name == '' || password == '' || fName == '' || lName == '') {
+    String phoneNumber = _phoneNumberController.text;
+    if (name == '' ||
+        password == '' ||
+        fName == '' ||
+        lName == '' ||
+        phoneNumber == '') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'please enter user name and password',
+            'Please Enter Your Details',
           ),
           duration: Duration(milliseconds: 500),
         ),
@@ -46,6 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: password,
         fName: fName,
         lName: lName,
+        phoneNumber: phoneNumber,
       );
 
       await dataBaseHandler.save(users);
@@ -68,6 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Colors.white.withOpacity(.7);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -118,25 +126,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           isobscureText: false,
                           Controller: _fNameController,
                           labelText: 'First Name',
-                          icon: null,
+                          suffixIcon: null,
+                          prefixIcon: Icon(Icons.person, color: color),
                         ),
                         const Gap(10),
                         CustomTxtField(
                           isobscureText: false,
                           Controller: _lNameController,
                           labelText: 'Last Name',
-                          icon: null,
+                          suffixIcon: null,
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: color,
+                          ),
                         ),
                         const Gap(10),
                         CustomTxtField(
                           isobscureText: false,
                           Controller: _usernameController,
                           labelText: 'Username',
-                          icon: null,
+                          suffixIcon: null,
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: color,
+                          ),
                         ),
                         const Gap(10),
                         CustomTxtField(
-                          icon: InkWell(
+                          isobscureText: false,
+                          Controller: _phoneNumberController,
+                          labelText: 'Phone Number',
+                          suffixIcon: null,
+                          prefixIcon: Icon(
+                            Icons.phone,
+                            color: color,
+                          ),
+                        ),
+                        const Gap(10),
+                        CustomTxtField(
+                          prefixIcon: Icon(Icons.lock, color: color),
+                          suffixIcon: InkWell(
                             onTap: () {
                               setState(() {
                                 isPassword = !isPassword;
@@ -146,7 +175,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               isPassword
                                   ? Icons.visibility_off_outlined
                                   : Icons.remove_red_eye_outlined,
-                              color: Colors.black,
+                              color: Colors.white.withOpacity(.9),
                             ),
                           ),
                           isobscureText: isPassword,
@@ -179,7 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(20),
                         Button(
-                            color: Color.fromARGB(255, 31, 56, 75),
+                            color: const Color.fromARGB(255, 31, 56, 75),
                             onTap: () {
                               _register();
                             },

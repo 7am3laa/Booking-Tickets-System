@@ -6,14 +6,16 @@ import 'package:projectf/constant.dart';
 class CustomTxtField extends StatefulWidget {
   final String labelText;
   final TextEditingController Controller;
-  Widget? icon;
+  Widget? suffixIcon;
+  Widget? prefixIcon;
   bool isobscureText;
   CustomTxtField({
     Key? key,
     required this.labelText,
     required this.Controller,
     required this.isobscureText,
-    @required this.icon,
+    @required this.suffixIcon,
+    @required this.prefixIcon,
   }) : super(key: key);
 
   @override
@@ -26,11 +28,16 @@ class _CustomTxtFieldState extends State<CustomTxtField> {
     return SizedBox(
       width: AppLayout.getWidth(context) / 1.5,
       child: TextField(
+        cursorColor: Colors.black,
+        cursorWidth: 3,
         obscuringCharacter: '*',
         controller: widget.Controller,
         obscureText: widget.isobscureText,
         style: const TextStyle(
-            fontSize: 20, fontFamily: 'pa', fontWeight: FontWeight.bold),
+            color: Color.fromARGB(221, 13, 9, 23),
+            fontSize: 20,
+            fontFamily: 'pa',
+            fontWeight: FontWeight.bold),
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
@@ -43,7 +50,8 @@ class _CustomTxtFieldState extends State<CustomTxtField> {
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white, width: .5),
           ),
-          suffixIcon: widget.icon,
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.suffixIcon,
           hintText: widget.labelText,
           hintStyle: TextStyle(
             fontSize: 20,

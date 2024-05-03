@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
+import 'package:projectf/Screens/searchscreen.dart';
 import 'package:projectf/constant.dart';
 
 class MainScreen extends StatefulWidget {
@@ -28,10 +29,7 @@ class _MainScreenState extends State<MainScreen> {
       Center(
         child: HomeScreen(),
       ),
-      Center(
-        child: Text('Search',
-            style: Styles.headlineStyle1.copyWith(color: Colors.black)),
-      ),
+      const SearchScreen(),
       Center(
         child: Text('Tickets', style: Styles.headlineStyle1),
       ),
@@ -49,17 +47,23 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       body: _bodyScreens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor:
+            theme.brightness == Brightness.dark ? Colors.black : Colors.white,
         currentIndex: _currentIndex,
         onTap: _onTapItem,
         elevation: 20,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: Colors.blue,
+        selectedItemColor:
+            theme.brightness == Brightness.dark ? Colors.white : Colors.black,
         type: BottomNavigationBarType.fixed,
-        unselectedItemColor: const Color(0xff526480),
+        unselectedItemColor: theme.brightness == Brightness.dark
+            ? Colors.grey
+            : Colors.grey[500],
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),
@@ -78,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            activeIcon: Icon(Icons.person_3_outlined),
+            activeIcon: Icon(Icons.person_3_sharp),
             label: "Profile",
           ),
         ],

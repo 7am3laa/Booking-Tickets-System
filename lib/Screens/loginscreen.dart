@@ -40,9 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       } else if (username == user.name && password != user.password) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Invalid password'),
-            duration: Duration(milliseconds: 500),
+          SnackBar(
+            content: Text(
+              'Invalid password',
+              style: Styles.headlineStyle2.copyWith(color: Colors.white),
+            ),
+            duration: const Duration(milliseconds: 500),
           ),
         );
         return;
@@ -77,6 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color color = Colors.white.withOpacity(.7);
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -124,11 +128,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           isobscureText: false,
                           Controller: _usernameController,
                           labelText: 'Username',
-                          icon: null,
+                          suffixIcon: null,
+                          prefixIcon: Icon(
+                            Icons.mail,
+                            color: color,
+                          ),
                         ),
                         const Gap(10),
                         CustomTxtField(
-                            icon: InkWell(
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: color,
+                            ),
+                            suffixIcon: InkWell(
                               onTap: () {
                                 setState(() {
                                   isPassword = !isPassword;
@@ -138,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 isPassword
                                     ? Icons.visibility_off_outlined
                                     : Icons.remove_red_eye_outlined,
-                                color: Colors.white,
+                                color: color,
                               ),
                             ),
                             isobscureText: isPassword,

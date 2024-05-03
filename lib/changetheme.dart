@@ -12,7 +12,7 @@ class ChangeTheme extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant ChangeTheme oldWidget) {
-    return false; 
+    return false;
   }
 }
 
