@@ -7,13 +7,14 @@ import 'package:path/path.dart';
 class DataBaseHandler {
   static Database? _db;
   static const String DATABASE = "mydata.db";
-  static const int VERSION = 1;
+  static const int VERSION = 2;
   static const String TABLE_USERS = "users";
   static const String ID = "id";
   static const String NAME = "name";
   static const String PASSWORD = "password";
   static const String FNAME = "fName";
   static const String LNAME = "lName";
+  static const String PHONE_NUMBER = "phoneNumber";
 
   Future<Database> get db async {
     if (_db == null) {
@@ -26,7 +27,7 @@ class DataBaseHandler {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $TABLE_USERS ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $PASSWORD TEXT, $FNAME TEXT, $LNAME TEXT)");
+        "CREATE TABLE $TABLE_USERS ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $PASSWORD TEXT, $FNAME TEXT, $LNAME TEXT, $PHONE_NUMBER TEXT)");
   }
 
   _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -41,7 +42,8 @@ class DataBaseHandler {
       'name': user.name,
       'password': user.password,
       'fName': user.fName,
-      'lName': user.lName
+      'lName': user.lName,
+      'phoneNumber': user.phoneNumber
     });
     return id;
   }
@@ -51,7 +53,7 @@ class DataBaseHandler {
     Users users = Users();
     List<Map> maps = await dbClient.query(
       TABLE_USERS,
-      columns: [ID, NAME, PASSWORD, FNAME, LNAME],
+      columns: [ID, NAME, PASSWORD, FNAME, LNAME, PHONE_NUMBER],
     );
 
     List<Users> usersList = [];
@@ -63,7 +65,8 @@ class DataBaseHandler {
             name: map[NAME],
             password: map[PASSWORD],
             fName: map[FNAME],
-            lName: map[LNAME]);
+            lName: map[LNAME],
+            phoneNumber: map[PHONE_NUMBER]);
         usersList.add(user);
       }
     }
@@ -88,7 +91,8 @@ class DataBaseHandler {
         'name': user.name,
         'password': user.password,
         'fName': user.fName,
-        'lName': user.lName
+        'lName': user.lName,
+        'phoneNumber': user.phoneNumber
       },
       where: '$NAME = ?',
       whereArgs: [user.name],

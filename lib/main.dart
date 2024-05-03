@@ -40,7 +40,6 @@ class _MyAppState extends State<MyApp> {
       child: Builder(
         builder: (context) {
           final isDark = ChangeTheme.of(context)?.data?.isDark ?? false;
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'PROJECT',
