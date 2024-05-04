@@ -50,8 +50,9 @@ class SearchResults extends SearchDelegate<String> {
   }
 
   Widget buildList(bool isHotel, String query, BuildContext context) {
+    DataSet dataSet = DataSet();
     final List<Map<String, dynamic>> list =
-        isHotel ? DataSet().hotelList : DataSet().ticketList;
+        isHotel ? dataSet.hotelList : dataSet.ticketList;
 
     if (query.isEmpty) {
       return ListView.builder(
@@ -62,18 +63,27 @@ class SearchResults extends SearchDelegate<String> {
         },
       );
     } else {
-      isHotel ? filteredList = list : filteredList = list;
-      filteredList = list
-          .where((element) =>
-              element['place']
+      filteredList = list.where((element) {
+        if (isHotel) {
+          return element['name']
                   .toString()
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              element['destination']
+              element['place']
                   .toString()
                   .toLowerCase()
-                  .contains(query.toLowerCase()))
-          .toList();
+                  .contains(query.toLowerCase());
+        } else {
+          return element['from']['name']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              element['to']['name']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase());
+        }
+      }).toList();
       return ListView.builder(
         itemCount: filteredList.length,
         itemBuilder: (context, index) {
@@ -90,33 +100,26 @@ class SearchResults extends SearchDelegate<String> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsScreen(itemDetails: item),
+            builder: (context) => DetailsScreen(
+              itemDetails: item,
+              ishotel: isHotel,
+            ),
           ),
         );
       },
       child: ListTile(
         title: isHotel
-            ? Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5,
-                    )
-                  ],
-                ),
-                child: SearchHotelCard(
-                  image: 'assets/images/${item['image']}',
-                  place: item['place'].toString(),
-                  destination: item['destination'].toString(),
-                ),
+            ? SearchHotelCard(
+                image: 'assets/images/hotels/${item['image']}',
+                place: item['name'].toString(),
+                destination: item['place'].toString(),
               )
             : SeacrhFlightCard(
+                fromCode: item['from']['code'].toString(),
+                toCode: item['to']['code'].toString(),
                 from: item['from']['name'].toString(),
                 to: item['to']['name'].toString(),
+                date: item['date'].toString(),
                 departureTime: item['departure_time'].toString(),
                 flightDuration: item['flying_time'].toString(),
                 price: item['price'].toString(),

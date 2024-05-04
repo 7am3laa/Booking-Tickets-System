@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/API/fetchFlights.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/fullticketcard.dart';
-import 'package:projectf/constant.dart';
 
 class FlightScreen extends StatelessWidget {
-  FlightScreen({Key? key}) : super(key: key);
+  const FlightScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
