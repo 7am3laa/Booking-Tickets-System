@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/hotelcard.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/placeflightcard.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/timeflightcard.dart';

@@ -5,6 +5,7 @@ class Users {
   String? fName;
   String? lName;
   String? phoneNumber;
+
   Users({
     this.id,
     this.name,

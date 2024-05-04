@@ -3,7 +3,7 @@ import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
 import 'package:projectf/Screens/searchscreen.dart';
-import 'package:projectf/constant.dart';
+import 'package:projectf/Screens/ticketsscreen.dart';
 
 class MainScreen extends StatefulWidget {
   final Users? user;
@@ -26,12 +26,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateBodyScreens() {
     _bodyScreens = [
-      Center(
+      const Center(
         child: HomeScreen(),
       ),
       const SearchScreen(),
-      Center(
-        child: Text('Tickets', style: Styles.headlineStyle1),
+      TicketsScreen(
+        user: widget.user,
       ),
       ProfileScreen(
         user: widget.user,
