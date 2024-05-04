@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 
+// ignore: must_be_immutable
 class HotelCard extends StatelessWidget {
   String hotelName;
   String hotelPlace;

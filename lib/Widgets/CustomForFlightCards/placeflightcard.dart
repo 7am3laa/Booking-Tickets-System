@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 
+// ignore: must_be_immutable
 class PlaceFlightCard extends StatelessWidget {
   String sourceName;
   String sourceCode;
   String destinationName;
   String destinationCode;
-  String flyingTime;
+  int flyingTime;
 
-  PlaceFlightCard(
-      {required this.sourceName,
-      required this.sourceCode,
-      required this.destinationName,
-      required this.destinationCode,
-      required this.flyingTime,
-      super.key});
+  PlaceFlightCard({
+    required this.sourceName,
+    required this.sourceCode,
+    required this.destinationName,
+    required this.destinationCode,
+    required this.flyingTime,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +110,16 @@ class PlaceFlightCard extends StatelessWidget {
                       CardText(
                           textContent: sourceName,
                           textColor: Colors.white,
-                          fontSize: 20),
+                          fontSize: 18),
                       CardText(
-                          textContent: flyingTime,
+                          textContent:
+                              '${(flyingTime / 60).floor()}H ${flyingTime % 60}M',
                           textColor: Colors.white,
-                          fontSize: 20),
+                          fontSize: 18),
                       CardText(
                           textContent: destinationName,
                           textColor: Colors.white,
-                          fontSize: 20),
+                          fontSize: 18),
                     ],
                   ),
                 ],
@@ -124,7 +127,7 @@ class PlaceFlightCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         )
       ],

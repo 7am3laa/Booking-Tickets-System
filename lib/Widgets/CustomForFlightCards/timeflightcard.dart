@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 
+// ignore: must_be_immutable
 class TimeFlightCard extends StatelessWidget {
   String flightDate;
   String flightTime;
-  int flightNumber;
+  String flightNumber;
+  String airlineName;
+  String airlineLogo;
   TimeFlightCard({
+    required this.airlineName,
+    required this.airlineLogo,
     required this.flightDate,
     required this.flightTime,
     required this.flightNumber,
@@ -30,33 +35,42 @@ class TimeFlightCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Transform.rotate(
-                        angle: 90 * 3.141592653589793 / 180,
-                        child: const Icon(
-                          Icons.shield,
-                          size: 35,
-                          color: Colors.white,
-                        ),
+                      Image.asset(
+                        'assets/images/airport3.png',
+                        width: 40,
+                        height: 40,
                       ),
-                      CardText(
-                          textContent:
-                              '- - - - - - - - - - - - - - - - - - - - - - -',
-                          textColor: Colors.white,
-                          fontSize: 20),
-                      Transform.rotate(
-                        angle: 270 * 3.141592653589793 / 180,
-                        child: const Icon(
-                          Icons.shield,
-                          size: 34,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        children: [
+                          CardText(
+                              textContent: airlineName,
+                              textColor: Colors.white,
+                              fontSize: 18),
+                          ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(30.0),
+                            ),
+                            child: Image.network(
+                              airlineLogo,
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Image.asset(
+                        'assets/images/airport4.png',
+                        width: 40,
+                        height: 40,
                       ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -67,14 +81,14 @@ class TimeFlightCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 20.0),
                         child: CardText(
-                            textContent: flightDate,
+                            textContent: flightTime,
                             textColor: Colors.white,
                             fontSize: 20),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 25.0),
                         child: CardText(
-                            textContent: '$flightNumber',
+                            textContent: flightNumber,
                             textColor: Colors.white,
                             fontSize: 20),
                       ),
@@ -88,7 +102,7 @@ class TimeFlightCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CardText(
-                          textContent: ' Date',
+                          textContent: '   Date',
                           textColor: Colors.white,
                           fontSize: 20),
                       CardText(
@@ -106,7 +120,7 @@ class TimeFlightCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         )
       ],
