@@ -57,61 +57,63 @@ class AppLayout {
   }
 }
 
-List<Map<String, dynamic>> ticketList = [
-  {
-    'from': {'code': "NYC", 'name': "New-York"},
-    'to': {'code': "LDN", 'name': "London"},
-    'flying_time': '8H 30M',
-    'date': "1 MAY",
-    'departure_time': "08:00 AM",
-    "number": 23,
-    "price": 100
-  },
-  {
-    'from': {'code': "DK", 'name': "Dhaka"},
-    'to': {'code': "SH", 'name': "Shanghai"},
-    'flying_time': '4H 20M',
-    'date': "10 MAY",
-    'departure_time': "09:00 AM",
-    "number": 45,
-    "price": 200
-  },
-  {
-    'from': {'code': "NYC", 'name': "EGYPT"},
-    'to': {'code': "LDN", 'name': "London"},
-    'flying_time': '8H 30M',
-    'date': "1 MAY",
-    'departure_time': "08:00 AM",
-    "number": 23,
-    "price": 100
-  },
-  {
-    'from': {'code': "DK", 'name': "Dhaka"},
-    'to': {'code': "SH", 'name': "Shanghai"},
-    'flying_time': '4H 20M',
-    'date': "10 MAY",
-    'departure_time': "09:00 AM",
-    "number": 45,
-    "price": 200
-  },
-];
-List<Map<String, dynamic>> hotelList = [
-  {
-    'image': 'one.png',
-    'place': 'Open Space',
-    'destination': 'London',
-    'price': 25
-  },
-  {
-    'image': 'two.png',
-    'place': 'Global Will',
-    'destination': 'London',
-    'price': 40
-  },
-  {
-    'image': 'three.png',
-    'place': 'Tallest Building',
-    'destination': 'Dubai',
-    'price': 68
-  },
-];
+class DataSet {
+  List<Map<String, dynamic>> ticketList = [
+    {
+      'from': {'code': "NYC", 'name': "New-York"},
+      'to': {'code': "LDN", 'name': "London"},
+      'flying_time': '8H 30M',
+      'date': "1 MAY",
+      'departure_time': "08:00 AM",
+      "number": 23,
+      "price": 100
+    },
+    {
+      'from': {'code': "DK", 'name': "Dhaka"},
+      'to': {'code': "SH", 'name': "Shanghai"},
+      'flying_time': '4H 20M',
+      'date': "10 MAY",
+      'departure_time': "09:00 AM",
+      "number": 45,
+      "price": 200
+    },
+    {
+      'from': {'code': "NYC", 'name': "EGYPT"},
+      'to': {'code': "LDN", 'name': "London"},
+      'flying_time': '8H 30M',
+      'date': "1 MAY",
+      'departure_time': "08:00 AM",
+      "number": 23,
+      "price": 100
+    },
+    {
+      'from': {'code': "DK", 'name': "Dhaka"},
+      'to': {'code': "SH", 'name': "Shanghai"},
+      'flying_time': '4H 20M',
+      'date': "10 MAY",
+      'departure_time': "09:00 AM",
+      "number": 45,
+      "price": 200
+    },
+  ];
+  List<Map<String, dynamic>> hotelList = [
+    {
+      'image': 'hotel1.png',
+      'name': 'Open Space',
+      'place': 'London',
+      'price': 25,
+    },
+    {
+      'image': 'hotel2.png',
+      'name': 'Global Will',
+      'place': 'London',
+      'price': 40,
+    },
+    {
+      'image': 'hotel3.png',
+      'name': 'Tallest Building',
+      'place': 'Dubai',
+      'price': 68,
+    },
+  ];
+}

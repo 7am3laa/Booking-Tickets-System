@@ -50,7 +50,8 @@ class SearchResults extends SearchDelegate<String> {
   }
 
   Widget buildList(bool isHotel, String query, BuildContext context) {
-    final List<Map<String, dynamic>> list = isHotel ? hotelList : ticketList;
+    final List<Map<String, dynamic>> list =
+        isHotel ? DataSet().hotelList : DataSet().ticketList;
 
     if (query.isEmpty) {
       return ListView.builder(
@@ -62,7 +63,7 @@ class SearchResults extends SearchDelegate<String> {
       );
     } else {
       isHotel ? filteredList = list : filteredList = list;
-       filteredList = list
+      filteredList = list
           .where((element) =>
               element['place']
                   .toString()
@@ -81,7 +82,6 @@ class SearchResults extends SearchDelegate<String> {
         },
       );
     }
-    
   }
 
   Widget buildListItem(BuildContext context, Map<String, dynamic> item) {
