@@ -1,11 +1,11 @@
 class Hotel {
   int? id;
-  int? idhotel ;
+  int? idhotel;
   int? numOfTickets;
   String? place;
   String? destination;
   String? image;
-  int? pricehotel;
+  String? pricehotel;
 
   Hotel({
     this.idhotel,

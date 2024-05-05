@@ -126,11 +126,11 @@ class _TicketsScreenState extends State<TicketsScreen> {
                         if (snapshot.hasData) {
                           List<Hotel> hotels = snapshot.data!;
                           if (hotels.isEmpty) {
-                            return const Center(
+                            return Center(
                               child: Text(
                                 'No Hotel Booked',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: color,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -165,9 +165,9 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                           SearchHotelCard(
                                             image:
                                                 'assets/images/hotels/${hotels[index].image}',
-                                            place: hotels[index].place!,
-                                            destination:
-                                                hotels[index].destination!,
+                                            name: hotels[index].place!,
+                                            place: hotels[index].destination!,
+                                            price: hotels[index].pricehotel!,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -193,12 +193,17 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                           title: Text(
                                                             'Delete Ticket',
                                                             style: Styles
-                                                                .headlineStyle1,
+                                                                .headlineStyle1
+                                                                .copyWith(
+                                                                    color:
+                                                                        color),
                                                           ),
                                                           content: Text(
                                                             'Are you sure you want to delete this ticket?',
                                                             style: Styles
-                                                                .headlineStyle2,
+                                                                .headlineStyle2
+                                                              ..copyWith(
+                                                                  color: color),
                                                           ),
                                                           actions: [
                                                             Column(
@@ -323,54 +328,239 @@ class _TicketsScreenState extends State<TicketsScreen> {
                     ),
                   ),
                 )
-              : Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: FutureBuilder<List<Flight>>(
-                    future: dataBaseHandler.getFlightsForUser(widget.user?.id),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasData) {
-                        List<Flight> flights = snapshot.data!;
-                        if (flights.isEmpty) {
+              : Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5, top: 5),
+                    child: FutureBuilder<List<Flight>>(
+                      future:
+                          dataBaseHandler.getFlightsForUser(widget.user?.id),
+                      builder: ((context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Center(
-                            child: Text(
-                              'No Flight Booked',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          );
-                        } else {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: flights.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SeacrhFlightCard(
-                                source: flights[index].source.toString(),
-                                destination:
-                                    flights[index].destination.toString(),
-                                departureTime:
-                                    flights[index].departureTime.toString(),
-                                flightDuration:
-                                    flights[index].flightDuration.toString(),
-                                price: flights[index].price ?? '0',
-                                date: flights[index].date.toString(),
-                                sourceCode:
-                                    flights[index].sourceCode.toString(),
-                                destinationCode:
-                                    flights[index].destinationCode.toString(),
-                              );
-                            },
-                          );
+                              child: CircularProgressIndicator());
                         }
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                        if (snapshot.hasData) {
+                          List<Flight> flights = snapshot.data!;
+                          if (flights.isEmpty) {
+                            return Center(
+                              child: Text(
+                                'No Flight Booked',
+                                style: TextStyle(
+                                  color: color,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return ListView.builder(
+                              itemCount: flights.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 5,
+                                    bottom: 5,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.5),
+                                            spreadRadius: 5,
+                                            blurRadius: 7,
+                                            offset: const Offset(0, 3),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          SeacrhFlightCard(
+                                            departureTime: flights[index]
+                                                .departureTime
+                                                .toString(),
+                                            flightDuration: flights[index]
+                                                .flightDuration
+                                                .toString(),
+                                            price:
+                                                flights[index].price.toString(),
+                                            date:
+                                                flights[index].date.toString(),
+                                            source: flights[index]
+                                                .source
+                                                .toString(),
+                                            destination: flights[index]
+                                                .destination
+                                                .toString(),
+                                            destinationCode: flights[index]
+                                                .destinationCode
+                                                .toString(),
+                                            sourceCode: flights[index]
+                                                .sourceCode
+                                                .toString(),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 10),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '${flights[index].price}\$',
+                                                  style: Styles.headlineStyle2
+                                                      .copyWith(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                            'Delete Ticket',
+                                                            style: Styles
+                                                                .headlineStyle1
+                                                                .copyWith(
+                                                                    color:
+                                                                        color),
+                                                          ),
+                                                          content: Text(
+                                                            'Are you sure you want to delete this ticket?',
+                                                            style: Styles
+                                                                .headlineStyle2
+                                                                .copyWith(
+                                                                    color:
+                                                                        color),
+                                                          ),
+                                                          actions: [
+                                                            Column(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap:
+                                                                      () async {
+                                                                    await dataBaseHandler
+                                                                        .deleteFlight(
+                                                                            flights[index].id!);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    setState(
+                                                                        () {});
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height: 50,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .red
+                                                                          .shade600,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .withOpacity(0.5),
+                                                                          spreadRadius:
+                                                                              5,
+                                                                          blurRadius:
+                                                                              7,
+                                                                          offset: const Offset(
+                                                                              0,
+                                                                              3),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    child: Text(
+                                                                        'Delete',
+                                                                        style: Styles
+                                                                            .headlineStyle2
+                                                                            .copyWith(color: Colors.white)),
+                                                                  ),
+                                                                ),
+                                                                const Gap(10),
+                                                                InkWell(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height: 50,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      boxShadow: [
+                                                                        BoxShadow(
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .withOpacity(0.5),
+                                                                          spreadRadius:
+                                                                              5,
+                                                                          blurRadius:
+                                                                              7,
+                                                                          offset: const Offset(
+                                                                              0,
+                                                                              3),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    child: Text(
+                                                                      'Cancel',
+                                                                      style: Styles
+                                                                          .headlineStyle2
+                                                                          .copyWith(
+                                                                              color: Colors.black),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.delete,
+                                                    size: 30,
+                                                    color: Colors.red.shade600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      }),
+                    ),
                   ),
                 ),
         ],

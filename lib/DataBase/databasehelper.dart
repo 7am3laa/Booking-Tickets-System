@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 class DataBaseHandler {
   static Database? _db;
   static const String DATABASE = "mydata.db";
-  static const int VERSION = 35;
+  static const int VERSION = 36;
 //for user table
   static const String TABLE_USERS = "users";
   static const String ID = "id";
@@ -81,7 +81,7 @@ class DataBaseHandler {
   Future<int> saveFlight(Flight flight) async {
     Database? dbClient = await db;
     int id = await dbClient!.insert(TABLE_FLIGHT, {
-      'idflight': flight.id,
+      'idflight': flight.idflight,
       'source': flight.source,
       'destinationf': flight.destination,
       'sourcecode': flight.sourceCode,
@@ -97,7 +97,7 @@ class DataBaseHandler {
   Future<List<Flight>> getFlightsForUser(userId) async {
     Database? dbClient = await db;
     List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
-        "SELECT * FROM $TABLE_FLIGHT WHERE $IDFLIGHT IN (SELECT $IDFLIGHT FROM $TABLE_USERS WHERE $ID = $userId)");
+        "SELECT * FROM $TABLE_FLIGHT WHERE $IDFLIGHT IN (SELECT $ID FROM $TABLE_USERS WHERE $ID = $userId)");
 
     List<Flight> flightList = [];
     if (maps.isNotEmpty) {
@@ -136,6 +136,7 @@ class DataBaseHandler {
       'destination': hotel.destination,
       'image': hotel.image,
       'numOfTickets': hotel.numOfTickets,
+      'pricehotel': hotel.pricehotel
     });
     return id;
   }
@@ -156,6 +157,7 @@ class DataBaseHandler {
           destination: map[DESTINATION],
           image: map[IMAGE],
           numOfTickets: map[NUM_OF_TICKETS],
+          pricehotel: map[PRICEHOTEL],
         );
         hotelsList.add(hotel);
       }

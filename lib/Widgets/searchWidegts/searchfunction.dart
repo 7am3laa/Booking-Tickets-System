@@ -115,8 +115,9 @@ class SearchResults extends SearchDelegate<String> {
         title: isHotel
             ? SearchHotelCard(
                 image: 'assets/images/hotels/${item['image']}',
-                place: item['name'].toString(),
-                destination: item['place'].toString(),
+                name: item['name'].toString(),
+                place: item['place'].toString(),
+                price: item['price'].toString(),
               )
             : SeacrhFlightCard(
                 sourceCode: item['from']['code'].toString(),
