@@ -298,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   controller: TextEditingController(text: users.phoneNumber),
                   text: 'Phone Number',
                   onChanged: (value) {
-                    users.lName = value;
+                    users.phoneNumber = value;
                   },
                 ),
               ],

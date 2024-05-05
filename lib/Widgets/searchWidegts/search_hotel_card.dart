@@ -3,13 +3,15 @@ import 'package:projectf/constant.dart';
 
 class SearchHotelCard extends StatelessWidget {
   final String image;
+  final String name;
   final String place;
-  final String destination;
+  final String price;
   const SearchHotelCard(
       {super.key,
       required this.image,
       required this.place,
-      required this.destination});
+      required this.name,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +45,24 @@ class SearchHotelCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  place,
+                  name,
                   style: Styles.headlineStyle1.copyWith(
                     color: Colors.black,
                     fontSize: 25,
                   ),
                 ),
-                Text(
-                  destination,
-                  style: Styles.headlineStyle3.copyWith(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      place,
+                      style: Styles.headlineStyle3.copyWith(),
+                    ),
+                    Text(
+                      '\$ $price / night',
+                      style: Styles.headlineStyle3.copyWith(),
+                    ),
+                  ],
                 ),
               ],
             ),

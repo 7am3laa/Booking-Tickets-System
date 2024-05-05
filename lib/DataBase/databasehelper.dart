@@ -1,17 +1,16 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:projectf/DataBase/flight_ticket.dart';
 import 'package:projectf/DataBase/hotel_ticket.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-// Define database handler class
 class DataBaseHandler {
   static Database? _db;
   static const String DATABASE = "mydata.db";
-  static const int VERSION = 21;
-
-  // Define users table fields
+  static const int VERSION = 36;
+//for user table
   static const String TABLE_USERS = "users";
   static const String ID = "id";
   static const String NAME = "name";
@@ -19,16 +18,28 @@ class DataBaseHandler {
   static const String FNAME = "fName";
   static const String LNAME = "lName";
   static const String PHONE_NUMBER = "phoneNumber";
-
-  // Define hotel table fields
+//for hotel table
   static const String TABLE_HOTEL = "hotel";
+  static const String GLOBALIDHOTEL = "globalidhotel";
   static const String PLACE = "place";
   static const String DESTINATION = "destination";
   static const String IMAGE = "image";
-  static const String IDHOTEL = "id";
-  static const String NUM_OF_TICKETS = "numOfTickets"; // Changed from "1"
+  static const String IDHOTEL = "idhotel";
+  static const String NUM_OF_TICKETS = "numOfTickets";
+  static const String PRICEHOTEL = "pricehotel";
+  // for flight table
+  static const String TABLE_FLIGHT = "flight";
+  static const String IDFLIGHT = "idflight";
+  static const String GLOBALIDFLIGHT = "globalidflight";
+  static const String DATE = "date";
+  static const String DEPARTURETIME = "departuretime";
+  static const String SOURCE = "source";
+  static const String DESTINATIONF = "destinationf";
+  static const String SOURCECODE = "sourcecode";
+  static const String DESTINATIONCODE = "destinationcode";
+  static const String FLYINGTIME = "flyingtime";
+  static const String PRICEFLIGHT = "priceflight";
 
-  // Method to get database instance
   Future<Database?> get db async {
     if (_db == null) {
       _db = await initDb();
@@ -38,7 +49,6 @@ class DataBaseHandler {
     }
   }
 
-  // Initialize database
   initDb() async {
     String path = join(await getDatabasesPath(), DATABASE);
     Database mydb = await openDatabase(path,
@@ -47,61 +57,107 @@ class DataBaseHandler {
     return mydb;
   }
 
-  // Create tables on database creation
   _onCreate(Database db, int version) async {
     await db.execute(
         "CREATE TABLE $TABLE_USERS ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $PASSWORD TEXT, $FNAME TEXT, $LNAME TEXT, $PHONE_NUMBER TEXT);");
 
     await db.execute(
-        "CREATE TABLE $TABLE_HOTEL ($IDHOTEL INTEGER PRIMARY KEY AUTOINCREMENT, $PLACE TEXT , $DESTINATION TEXT , $IMAGE TEXT , $NUM_OF_TICKETS INTEGER);");
+        "CREATE TABLE $TABLE_HOTEL ($GLOBALIDHOTEL INTEGER PRIMARY KEY AUTOINCREMENT, $IDHOTEL INTEGER, $PLACE TEXT , $DESTINATION TEXT , $IMAGE TEXT , $NUM_OF_TICKETS INTEGER, $PRICEHOTEL TEXT);");
+
+    await db.execute(
+        "CREATE TABLE $TABLE_FLIGHT ($GLOBALIDFLIGHT INTEGER PRIMARY KEY AUTOINCREMENT, $IDFLIGHT INTEGER, $SOURCE TEXT, $DESTINATIONF TEXT, $SOURCECODE TEXT, $DESTINATIONCODE TEXT, $DATE TEXT, $DEPARTURETIME TEXT, $FLYINGTIME TEXT, $PRICEFLIGHT TEXT);");
   }
 
-  // Upgrade database tables
   _onUpgrade(Database db, int oldVersion, int newVersion) async {
     await db.execute("DROP TABLE IF EXISTS $TABLE_USERS");
     await db.execute("DROP TABLE IF EXISTS $TABLE_HOTEL");
+    await db.execute("DROP TABLE IF EXISTS $TABLE_FLIGHT");
+
     await _onCreate(db, newVersion);
   }
 
-  // Insert data into database
-  insertData(String sql) async {
-    Database? dbClient = await db;
-    int response = await dbClient!.rawInsert(sql);
+// -------------------------------flight methods--------------------------------------------
 
-    return response;
+  Future<int> saveFlight(Flight flight) async {
+    Database? dbClient = await db;
+    int id = await dbClient!.insert(TABLE_FLIGHT, {
+      'idflight': flight.idflight,
+      'source': flight.source,
+      'destinationf': flight.destination,
+      'sourcecode': flight.sourceCode,
+      'destinationcode': flight.destinationCode,
+      'date': flight.date,
+      'departuretime': flight.departureTime,
+      'flyingtime': flight.flightDuration,
+      'priceflight': flight.price
+    });
+    return id;
   }
 
-  // Update data in database
-  updateData(String sql) async {
+  Future<List<Flight>> getFlightsForUser(userId) async {
     Database? dbClient = await db;
-    int response = await dbClient!.rawInsert(sql);
+    List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+        "SELECT * FROM $TABLE_FLIGHT WHERE $IDFLIGHT IN (SELECT $ID FROM $TABLE_USERS WHERE $ID = $userId)");
 
-    return response;
+    List<Flight> flightList = [];
+    if (maps.isNotEmpty) {
+      for (int i = 0; i < maps.length; i++) {
+        Map<String, dynamic> map = maps[i];
+        Flight flight = Flight(
+          id: map[GLOBALIDFLIGHT],
+          idflight: map[IDFLIGHT],
+          source: map[SOURCE],
+          destination: map[DESTINATIONF],
+          sourceCode: map[SOURCECODE],
+          destinationCode: map[DESTINATIONCODE],
+          date: map[DATE],
+          departureTime: map[DEPARTURETIME],
+          flightDuration: map[FLYINGTIME],
+          price: map[PRICEFLIGHT],
+        );
+        flightList.add(flight);
+      }
+    }
+    return flightList;
   }
 
-  // Delete data from database
-  deleteData(String sql) async {
+  deleteFlight(int id) async {
     Database? dbClient = await db;
-    int response = await dbClient!.rawInsert(sql);
-
-    return response;
+    return await dbClient!
+        .delete(TABLE_FLIGHT, where: '$GLOBALIDFLIGHT = ?', whereArgs: [id]);
   }
 
-  Future<List<Hotel>> getHotelsForUser() async {
+  //-----------------------------------------------hotel methods--------------------------------------------
+  Future<int> saveHotel(Hotel hotel) async {
     Database? dbClient = await db;
-    List<Map<String, dynamic>> maps =
-        await dbClient!.rawQuery("SELECT * FROM $TABLE_HOTEL WHERE $ID ");
+    int id = await dbClient!.insert(TABLE_HOTEL, {
+      'idhotel': hotel.idhotel,
+      'place': hotel.place,
+      'destination': hotel.destination,
+      'image': hotel.image,
+      'numOfTickets': hotel.numOfTickets,
+      'pricehotel': hotel.pricehotel
+    });
+    return id;
+  }
+
+  Future<List<Hotel>> getHotelsForUser(userId) async {
+    Database? dbClient = await db;
+    List<Map<String, dynamic>> maps = await dbClient!.rawQuery(
+        "SELECT * FROM $TABLE_HOTEL WHERE $IDHOTEL IN (SELECT $ID FROM $TABLE_USERS WHERE $ID = $userId)");
 
     List<Hotel> hotelsList = [];
     if (maps.isNotEmpty) {
       for (int i = 0; i < maps.length; i++) {
         Map<String, dynamic> map = maps[i];
         Hotel hotel = Hotel(
-          id: map[IDHOTEL],
+          id: map[GLOBALIDHOTEL],
+          idhotel: map[IDHOTEL],
           place: map[PLACE],
           destination: map[DESTINATION],
           image: map[IMAGE],
           numOfTickets: map[NUM_OF_TICKETS],
+          pricehotel: map[PRICEHOTEL],
         );
         hotelsList.add(hotel);
       }
@@ -109,14 +165,13 @@ class DataBaseHandler {
     return hotelsList;
   }
 
-  // Delete a hotel from the database
   deleteHotel(int id) async {
     Database? dbClient = await db;
     return await dbClient!
-        .delete(TABLE_HOTEL, where: '$IDHOTEL = ?', whereArgs: [id]);
+        .delete(TABLE_HOTEL, where: '$GLOBALIDHOTEL = ?', whereArgs: [id]);
   }
 
-  // Save user data to the database
+// -------------------------------user Methods---------------------------------------------------------
   Future<int> save(Users user) async {
     Database? dbClient = await db;
     int id = await dbClient!.insert(TABLE_USERS, {
@@ -130,7 +185,6 @@ class DataBaseHandler {
     return id;
   }
 
-  // Retrieve users from the database
   Future<List<Users>> getUsers() async {
     Database? dbClient = await db;
     Users users = Users();
@@ -167,7 +221,6 @@ class DataBaseHandler {
     return usersList;
   }
 
-  // Delete a user from the database
   Future<int> deleteUser(String name) async {
     Database? dbClient = await db;
     int numOfRecords = await dbClient!
@@ -175,7 +228,6 @@ class DataBaseHandler {
     return numOfRecords;
   }
 
-  // Update user data in the database
   Future<int> updateUser(Users user) async {
     Database? dbClient = await db;
     int numOfRecords = await dbClient!.update(
