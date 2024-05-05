@@ -3,25 +3,25 @@ import 'package:gap/gap.dart';
 import 'package:projectf/constant.dart';
 
 class SeacrhFlightCard extends StatelessWidget {
-  final String from;
-  final String to;
+  final String source;
+  final String destination;
   final String departureTime;
   final String flightDuration;
   final String price;
   final String date;
-  final String fromCode;
-  final String toCode;
+  final String sourceCode;
+  final String destinationCode;
 
   const SeacrhFlightCard({
     Key? key,
-    required this.from,
-    required this.to,
     required this.departureTime,
     required this.flightDuration,
     required this.price,
     required this.date,
-    required this.fromCode,
-    required this.toCode,
+    required this.source,
+    required this.destination,
+    required this.destinationCode,
+    required this.sourceCode,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class SeacrhFlightCard extends StatelessWidget {
         top: 8.0,
       ),
       child: Container(
-        height: 360,
+        height: 240,
         width: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -45,126 +45,88 @@ class SeacrhFlightCard extends StatelessWidget {
             )
           ],
         ),
-        child: Column(
+        child: Row(
           children: [
-            Row(
-              children: [
-                const Expanded(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    radius: 35,
-                    child: Icon(
-                      Icons.flight,
-                      size: 40,
-                      color: Colors.white,
-                    ),
-                  ),
+            const Expanded(
+              child: CircleAvatar(
+                backgroundColor: Colors.blue,
+                radius: 35,
+                child: Icon(
+                  Icons.flight,
+                  size: 40,
+                  color: Colors.white,
                 ),
-                Expanded(
-                  flex: 3,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Gap(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Gap(20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              from,
-                              style:
-                                  Styles.headlineStyle2.copyWith(fontSize: 20),
-                            ),
-                          ),
-                          const Expanded(
-                            child:
-                                Icon(Icons.arrow_forward, color: Colors.grey),
-                          ),
-                          Expanded(
-                            child: Text(
-                              to,
-                              style:
-                                  Styles.headlineStyle2.copyWith(fontSize: 20),
-                            ),
-                          ),
-                        ],
+                      Expanded(
+                        child: Text(
+                          source,
+                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                        ),
                       ),
-                      const SizedBox(height: 5.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              fromCode,
-                              style:
-                                  Styles.headlineStyle3.copyWith(fontSize: 20),
-                            ),
-                          ),
-                          const Expanded(
-                            child:
-                                Icon(Icons.arrow_forward, color: Colors.grey),
-                          ),
-                          Expanded(
-                            child: Text(
-                              toCode,
-                              style:
-                                  Styles.headlineStyle3.copyWith(fontSize: 20),
-                            ),
-                          ),
-                        ],
+                      const Expanded(
+                        child: Icon(Icons.arrow_forward, color: Colors.grey),
                       ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        'Departure Time: $departureTime',
-                        style: Styles.headlineStyle4.copyWith(fontSize: 20),
-                      ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        'Flying Time: $flightDuration',
-                        style: Styles.headlineStyle4.copyWith(fontSize: 20),
-                      ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        'Date: $date',
-                        style: Styles.headlineStyle4.copyWith(fontSize: 20),
-                      ),
-                      const SizedBox(height: 2.0),
-                      Text(
-                        'Price: \$ $price',
-                        style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                      Expanded(
+                        child: Text(
+                          destination,
+                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount:
-                            (MediaQuery.of(context).size.width / 4).floor(),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Text('|', style: Styles.headlineStyle2),
-                              Text('|', style: Styles.headlineStyle2),
-                              Text('|', style: Styles.headlineStyle2),
-                              Text('|', style: Styles.headlineStyle2),
-                            ],
-                          );
-                        },
+                  const SizedBox(height: 5.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          sourceCode,
+                          style: Styles.headlineStyle3.copyWith(fontSize: 20),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const Expanded(
+                        child: Icon(Icons.arrow_forward, color: Colors.grey),
+                      ),
+                      Expanded(
+                        child: Text(
+                          destinationCode,
+                          style: Styles.headlineStyle3.copyWith(fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Departure Time: $departureTime',
+                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Flying Time: $flightDuration',
+                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Date: $date',
+                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Price: \$ $price',
+                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                  ),
+                ],
               ),
             ),
           ],

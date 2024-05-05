@@ -1,10 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Widgets/searchWidegts/searchfunction.dart';
 import 'package:projectf/constant.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  Users? users;
+   SearchScreen({Key? key, this.users}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -191,7 +195,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: InkWell(
           onTap: () {
             showSearch(
-                context: context, delegate: SearchResults(isHotel: isHotel));
+                context: context, delegate: SearchResults(users: widget.users ,isHotel: isHotel));
           },
           child: Container(
             decoration: BoxDecoration(

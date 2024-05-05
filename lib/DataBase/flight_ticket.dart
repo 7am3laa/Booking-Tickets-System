@@ -1,9 +1,10 @@
 class Flight {
   int? id;
-  String? from;
-  String? to;
-  String? fromCode;
-  String? toCode;
+  int? idflight;
+  String? source;
+  String? destination;
+  String? sourceCode;
+  String? destinationCode;
   String? date;
   String? departureTime;
   String? flightDuration;
@@ -11,13 +12,14 @@ class Flight {
 
   Flight({
     this.id,
-    this.from,
-    this.to,
+    this.idflight,
+    this.source,
+    this.destination,
+    this.sourceCode,
+    this.destinationCode,
     this.date,
     this.departureTime,
     this.flightDuration,
     this.price,
-    this.fromCode,
-    this.toCode,
   });
 }

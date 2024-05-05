@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:projectf/API/fetchFlights.dart';
+import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/details_screen.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
 
 class SearchResults extends SearchDelegate<String> {
+  Users? users;
   final bool isHotel;
-  SearchResults({required this.isHotel});
+  SearchResults({required this.isHotel, this.users});
 
   List filteredList = [];
-
+  FetchFlights fetchFlights = FetchFlights();
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -101,6 +104,7 @@ class SearchResults extends SearchDelegate<String> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsScreen(
+              users: users,
               itemDetails: item,
               ishotel: isHotel,
             ),
@@ -115,10 +119,10 @@ class SearchResults extends SearchDelegate<String> {
                 destination: item['place'].toString(),
               )
             : SeacrhFlightCard(
-                fromCode: item['from']['code'].toString(),
-                toCode: item['to']['code'].toString(),
-                from: item['from']['name'].toString(),
-                to: item['to']['name'].toString(),
+                sourceCode: item['from']['code'].toString(),
+                destinationCode: item['to']['code'].toString(),
+                source: item['from']['name'].toString(),
+                destination: item['to']['name'].toString(),
                 date: item['date'].toString(),
                 departureTime: item['departure_time'].toString(),
                 flightDuration: item['flying_time'].toString(),

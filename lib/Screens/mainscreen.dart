@@ -29,8 +29,12 @@ class _MainScreenState extends State<MainScreen> {
       Center(
         child: HomeScreen(),
       ),
-      const SearchScreen(),
-      const TicketsScreen(),
+      SearchScreen(
+        users: widget.user,
+      ),
+      TicketsScreen(
+        user: widget.user,
+      ),
       ProfileScreen(
         user: widget.user,
       ),
