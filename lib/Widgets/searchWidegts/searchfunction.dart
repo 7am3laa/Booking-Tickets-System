@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projectf/API/fetchFlights.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/details_screen.dart';
@@ -38,12 +37,41 @@ class SearchResults extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text(
-      query,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      title: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 4.5,
+        child: Column(
+          children: [
+            const CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 70,
+              child: Icon(
+                Icons.cancel_outlined,
+                color: Colors.red,
+                size: 150,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Sorry...!',
+                style: Styles.headlineStyle2.copyWith(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'pa'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      content: Text(
+        'We have No ${isHotel ? 'Hotels' : 'Flights'} For You',
+        style: Styles.headlineStyle2.copyWith(
+            fontSize: 22, fontWeight: FontWeight.w800, fontFamily: 'pa'),
       ),
     );
   }
@@ -147,19 +175,19 @@ class SearchResults extends SearchDelegate<String> {
                 price: item['price'].toString(),
               )
             : SeacrhFlightCard(
-                sourceName: item['departureAirportName'],
-                sourceCode: item['departureAirportId'],
-                destinationName: item['arrivalAirportName'],
-                destinationCode: item['arrivalAirportId'],
-                hoursOfFlightDuration: item['hoursOfFlightDuration'],
-                minutesOfFlightDuration: item['minutesOfFlightDuration'],
-                flightDate: item['departureTime'].split(' ')[0],
-                flightTime: item['departureTime'].split(' ')[1],
+                sourceName: item['departureAirportName'], //1
+                sourceCode: item['departureAirportId'], //2
+                destinationName: item['arrivalAirportName'], //3
+                destinationCode: item['arrivalAirportId'], //4
+                hoursOfFlightDuration: item['hoursOfFlightDuration'], //11
+                minutesOfFlightDuration: item['minutesOfFlightDuration'], //5
+                flightDate: item['departureTime'].split(' ')[0], //5
+                flightTime: item['departureTime'].split(' ')[1], //6
                 flightNumber: item['flightNumber'],
                 airline: item['airline'],
-                airline_logo: item['airlineLogo'],
-                price: item['price'],
-                travelClass: item['travelClass'],
+                airline_logo: item['airlineLogo'], //8
+                price: item['price'], //9
+                travelClass: item['travelClass'], //10
               ),
       ),
     );

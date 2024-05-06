@@ -1,12 +1,12 @@
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api, avoid_print
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:projectf/API/fetchFlights.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
-import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/mainscreen.dart';
-import 'package:projectf/constant.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id = 'splashscreen';

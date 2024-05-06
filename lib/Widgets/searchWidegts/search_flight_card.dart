@@ -1,6 +1,7 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:http/http.dart';
+
 import 'package:projectf/constant.dart';
 
 class SeacrhFlightCard extends StatelessWidget {
@@ -43,7 +44,7 @@ class SeacrhFlightCard extends StatelessWidget {
         top: 8.0,
       ),
       child: Container(
-        height: extensions != null && extensions!.isNotEmpty ? 400 : 230,
+        height: extensions != null && extensions!.isNotEmpty ? 400 : 250,
         width: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -80,7 +81,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           sourceName,
-                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle2.copyWith(fontSize: 19),
                         ),
                       ),
                       const Expanded(
@@ -89,7 +90,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           destinationName,
-                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle2.copyWith(fontSize: 19),
                         ),
                       ),
                     ],
@@ -155,7 +156,7 @@ class SeacrhFlightCard extends StatelessWidget {
                         for (var extension in extensions!)
                           Text(
                             extension.toString(),
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                       ],
                     ),

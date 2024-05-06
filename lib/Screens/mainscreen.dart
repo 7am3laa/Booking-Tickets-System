@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/Screens/flightscreen.dart';
