@@ -380,20 +380,22 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                       child: Column(
                                         children: [
                                           SeacrhFlightCard(
-                                            departureTime: flights[index]
+                                            flightTime: flights[index]
                                                 .departureTime
                                                 .toString(),
-                                            flightDuration: flights[index]
-                                                .flightDuration
-                                                .toString(),
-                                            price:
-                                                flights[index].price.toString(),
-                                            date:
+                                            hoursOfFlightDuration: int.parse(
+                                                flights[index]
+                                                    .flightDuration
+                                                    .toString()),
+                                            price: int.parse(flights[index]
+                                                .price
+                                                .toString()),
+                                            flightDate:
                                                 flights[index].date.toString(),
-                                            source: flights[index]
+                                            sourceName: flights[index]
                                                 .source
                                                 .toString(),
-                                            destination: flights[index]
+                                            destinationName: flights[index]
                                                 .destination
                                                 .toString(),
                                             destinationCode: flights[index]

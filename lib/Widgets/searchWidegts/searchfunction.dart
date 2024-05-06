@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/API/fetchFlights.dart';
+import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/details_screen.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
@@ -9,10 +10,10 @@ import 'package:projectf/constant.dart';
 class SearchResults extends SearchDelegate<String> {
   Users? users;
   final bool isHotel;
-  SearchResults({required this.isHotel, this.users});
+  List<FlightModel>? ticketList = [];
+  SearchResults({required this.isHotel, this.users, this.ticketList});
 
   List filteredList = [];
-  FetchFlights fetchFlights = FetchFlights();
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -54,8 +55,30 @@ class SearchResults extends SearchDelegate<String> {
 
   Widget buildList(bool isHotel, String query, BuildContext context) {
     DataSet dataSet = DataSet();
-    final List<Map<String, dynamic>> list =
-        isHotel ? dataSet.hotelList : dataSet.ticketList;
+    List<Map<String, dynamic>> list = [];
+    if (isHotel) {
+      list = dataSet.hotelList;
+    } else {
+      for (var flight in ticketList!) {
+        Map<String, dynamic> flightMap = {
+          'arrivalAirportName': flight.arrivalAirportName,
+          'arrivalAirportId': flight.arrivalAirportId,
+          'arrivalTime': flight.arrivalTime,
+          'flightNumber': flight.flightNumber,
+          'departureAirportName': flight.departureAirportName,
+          'departureAirportId': flight.departureAirportId,
+          'departureTime': flight.departureTime,
+          'price': flight.price,
+          'airline': flight.airline,
+          'airlineLogo': flight.airlineLogo,
+          'hoursOfFlightDuration': flight.hoursOfFlightDuration,
+          'minutesOfFlightDuration': flight.minutesOfFlightDuration,
+          'extensions': flight.extensions,
+          'travelClass': flight.travelClass,
+        };
+        list.add(flightMap);
+      }
+    }
 
     if (query.isEmpty) {
       return ListView.builder(
@@ -77,11 +100,15 @@ class SearchResults extends SearchDelegate<String> {
                   .toLowerCase()
                   .contains(query.toLowerCase());
         } else {
-          return element['from']['name']
+          return element['departureAirportName']
                   .toString()
                   .toLowerCase()
                   .contains(query.toLowerCase()) ||
-              element['to']['name']
+              element['arrivalAirportName']
+                  .toString()
+                  .toLowerCase()
+                  .contains(query.toLowerCase()) ||
+              element['travelClass']
                   .toString()
                   .toLowerCase()
                   .contains(query.toLowerCase());
@@ -120,14 +147,19 @@ class SearchResults extends SearchDelegate<String> {
                 price: item['price'].toString(),
               )
             : SeacrhFlightCard(
-                sourceCode: item['from']['code'].toString(),
-                destinationCode: item['to']['code'].toString(),
-                source: item['from']['name'].toString(),
-                destination: item['to']['name'].toString(),
-                date: item['date'].toString(),
-                departureTime: item['departure_time'].toString(),
-                flightDuration: item['flying_time'].toString(),
-                price: item['price'].toString(),
+                sourceName: item['departureAirportName'],
+                sourceCode: item['departureAirportId'],
+                destinationName: item['arrivalAirportName'],
+                destinationCode: item['arrivalAirportId'],
+                hoursOfFlightDuration: item['hoursOfFlightDuration'],
+                minutesOfFlightDuration: item['minutesOfFlightDuration'],
+                flightDate: item['departureTime'].split(' ')[0],
+                flightTime: item['departureTime'].split(' ')[1],
+                flightNumber: item['flightNumber'],
+                airline: item['airline'],
+                airline_logo: item['airlineLogo'],
+                price: item['price'],
+                travelClass: item['travelClass'],
               ),
       ),
     );

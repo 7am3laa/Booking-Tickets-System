@@ -107,19 +107,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    child: SeacrhFlightCard(
-                      sourceCode: widget.itemDetails['from']['code'].toString(),
-                      destinationCode:
-                          widget.itemDetails['to']['code'].toString(),
-                      source: widget.itemDetails['from']['name'].toString(),
-                      destination: widget.itemDetails['to']['name'].toString(),
-                      date: widget.itemDetails['date'].toString(),
-                      departureTime:
-                          widget.itemDetails['departure_time'].toString(),
-                      flightDuration:
-                          widget.itemDetails['flying_time'].toString(),
-                      price: widget.itemDetails['price'].toString(),
+                  ListTile(
+                    title: SeacrhFlightCard(
+                      sourceName: widget.itemDetails['departureAirportName'],
+                      sourceCode: widget.itemDetails['departureAirportId'],
+                      destinationName: widget.itemDetails['arrivalAirportName'],
+                      destinationCode: widget.itemDetails['arrivalAirportId'],
+                      hoursOfFlightDuration:
+                          widget.itemDetails['hoursOfFlightDuration'],
+                      minutesOfFlightDuration:
+                          widget.itemDetails['minutesOfFlightDuration'],
+                      flightDate:
+                          widget.itemDetails['departureTime'].split(' ')[0],
+                      flightTime:
+                          widget.itemDetails['departureTime'].split(' ')[1],
+                      flightNumber: widget.itemDetails['flightNumber'],
+                      airline: widget.itemDetails['airline'],
+                      airline_logo: widget.itemDetails['airlineLogo'],
+                      price: widget.itemDetails['price'],
+                      extensions: widget.itemDetails['extensions'],
+                      travelClass: widget.itemDetails['travelClass'],
                     ),
                   ),
                   Padding(
@@ -226,17 +233,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   int num = updateTotalPrice();
                   Flight flight = Flight(
                     idflight: widget.users?.id,
-                    source: widget.itemDetails['from']['name'].toString(),
-                    destination: widget.itemDetails['to']['name'].toString(),
-                    sourceCode: widget.itemDetails['from']['code'].toString(),
-                    destinationCode:
-                        widget.itemDetails['to']['code'].toString(),
-                    date: widget.itemDetails['date'].toString(),
+                    source: widget.itemDetails['departure_airport_name'],
+                    destination: widget.itemDetails['arrival_airport_name'],
+                    sourceCode: widget.itemDetails['departure_airport_id'],
+                    destinationCode: widget.itemDetails['arrival_airport_id'],
+                    date: widget.itemDetails['departure_time'].split(' ')[0],
                     departureTime:
-                        widget.itemDetails['departure_time'].toString(),
+                        widget.itemDetails['departure_time'].split(' ')[1],
                     flightDuration:
-                        widget.itemDetails['flying_time'].toString(),
-                    price: (num).toString(),
+                        widget.itemDetails['flight_duration'].toString(),
+                    price: widget.itemDetails['price'].toString(),
                   );
                   await dataBaseHandler.saveFlight(flight);
                   print(

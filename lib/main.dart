@@ -51,9 +51,9 @@ class _MyAppState extends State<MyApp> {
             ),
             initialRoute: LoginScreen.id,
             routes: {
-              SplashScreen.id: (context) => const SplashScreen(),
+              SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => const LoginScreen(),
-              MainScreen.id: (context) => const MainScreen(),
+              MainScreen.id: (context) => MainScreen(),
               RegisterScreen.id: (context) => const RegisterScreen(),
               ProfileScreen.id: (context) => const ProfileScreen(),
             },

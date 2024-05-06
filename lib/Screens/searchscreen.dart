@@ -2,13 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Widgets/searchWidegts/searchfunction.dart';
 import 'package:projectf/constant.dart';
 
 class SearchScreen extends StatefulWidget {
   Users? users;
-   SearchScreen({Key? key, this.users}) : super(key: key);
+  List<FlightModel>? ticketList = [];
+  SearchScreen({Key? key, this.users, this.ticketList}) : super(key: key);
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -195,7 +197,11 @@ class _SearchScreenState extends State<SearchScreen> {
         child: InkWell(
           onTap: () {
             showSearch(
-                context: context, delegate: SearchResults(users: widget.users ,isHotel: isHotel));
+                context: context,
+                delegate: SearchResults(
+                    users: widget.users,
+                    isHotel: isHotel,
+                    ticketList: widget.ticketList));
           },
           child: Container(
             decoration: BoxDecoration(

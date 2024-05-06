@@ -1,26 +1,40 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:projectf/API/fetchFlights.dart';
+import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/mainscreen.dart';
+import 'package:projectf/constant.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id = 'splashscreen';
+  List<FlightModel>? ticketList = [];
   final Users? user;
-  const SplashScreen({this.user, super.key});
-  void fetchingFlightsData() {}
+  SplashScreen({this.user, super.key});
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   double progressValue = 0.0;
+  void fetchingFlightsData() async {
+    try {
+      List<FlightModel>? flightList = await FetchFlights().getNews();
+      print('Flight list isssss $flightList');
+      widget.ticketList = flightList;
+    } catch (error) {
+      print('Error fetching flights data: $error');
+      widget.ticketList = [];
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     startTimer();
+    fetchingFlightsData();
   }
 
   void startTimer() {
@@ -31,7 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => MainScreen(user: widget.user!),
+              builder: (context) =>
+                  MainScreen(user: widget.user!, ticketList: widget.ticketList),
             ),
           );
         } else {
