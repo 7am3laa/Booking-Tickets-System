@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 
@@ -66,7 +68,7 @@ class PlaceFlightCard extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 16),
                           Transform.rotate(
-                            angle: 90 * 3.141592653589793 / 180,
+                            angle: 90 * pi / 180,
                             child: const Icon(
                               Icons.flight,
                               color: Colors.white,

@@ -6,6 +6,7 @@ import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/mainscreen.dart';
 import 'package:projectf/Screens/signupscreen.dart';
+import 'package:projectf/Screens/splashscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
 import 'package:projectf/Widgets/CustomsForAuth/customtxtfield.dart';
 import 'package:projectf/constant.dart';
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MainScreen(user: loggedInUser!),
+          builder: (context) => SplashScreen(user: loggedInUser!),
         ),
       );
     } else {
