@@ -178,7 +178,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  '${hotels[index].pricehotel ?? 0}\$/${hotels[index].numOfTickets.toString()} Nights',
+                                                  '\$ ${hotels[index].totalPrice} / ${hotels[index].numOfTickets.toString()} Nights',
                                                   style: Styles.headlineStyle2
                                                       .copyWith(
                                                     color: Colors.black,
@@ -380,30 +380,35 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                       child: Column(
                                         children: [
                                           SeacrhFlightCard(
-                                            flightTime: flights[index]
-                                                .departureTime
-                                                .toString(),
-                                            hoursOfFlightDuration: int.parse(
-                                                flights[index]
-                                                    .flightDuration
-                                                    .toString()),
-                                            price: int.parse(flights[index]
-                                                .price
-                                                .toString()),
-                                            flightDate:
-                                                flights[index].date.toString(),
-                                            sourceName: flights[index]
-                                                .source
-                                                .toString(),
-                                            destinationName: flights[index]
-                                                .destination
+                                            sourceCode: flights[index]
+                                                .sourceCode
                                                 .toString(),
                                             destinationCode: flights[index]
                                                 .destinationCode
                                                 .toString(),
-                                            sourceCode: flights[index]
-                                                .sourceCode
+                                            sourceName: flights[index]
+                                                .sourceName
                                                 .toString(),
+                                            destinationName: flights[index]
+                                                .destinationName
+                                                .toString(),
+                                            flightDate: flights[index]
+                                                .flightDate
+                                                .toString(),
+                                            flightTime: flights[index]
+                                                .flightTime
+                                                .toString(),
+                                            hoursOfFlightDuration:
+                                                flights[index]
+                                                    .hoursOfFlightDuration,
+                                            minutesOfFlightDuration:
+                                                flights[index]
+                                                    .minutesOfFlightDuration,
+                                            airline_logo:
+                                                flights[index].airlineLogo,
+                                            price: flights[index].price!,
+                                            travelClass:
+                                                flights[index].travelClass,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -414,7 +419,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  '${flights[index].price}\$',
+                                                  '\$ ${flights[index].toatalFlightPrice} / ${flights[index].numOfTickets.toString()} Tickets',
                                                   style: Styles.headlineStyle2
                                                       .copyWith(
                                                     color: Colors.black,

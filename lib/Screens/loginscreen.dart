@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/DataBase/user.dart';
-import 'package:projectf/Screens/mainscreen.dart';
 import 'package:projectf/Screens/signupscreen.dart';
 import 'package:projectf/Screens/splashscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
