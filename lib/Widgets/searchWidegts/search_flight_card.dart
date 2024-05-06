@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:http/http.dart';
 import 'package:projectf/constant.dart';
 
 class SeacrhFlightCard extends StatelessWidget {
-  final String source;
-  final String destination;
-  final String departureTime;
-  final String flightDuration;
-  final String price;
-  final String date;
+  final String sourceName;
   final String sourceCode;
+  final String destinationName;
   final String destinationCode;
+  final String flightDate;
+  final String flightTime;
+  int? hoursOfFlightDuration;
+  int? minutesOfFlightDuration;
+  String? airline_logo;
+  String? airline;
+  String? flightNumber = '1';
+  String? travelClass;
+  List<dynamic>? extensions;
+  final int price;
 
-  const SeacrhFlightCard({
-    Key? key,
-    required this.departureTime,
-    required this.flightDuration,
-    required this.price,
-    required this.date,
-    required this.source,
-    required this.destination,
-    required this.destinationCode,
-    required this.sourceCode,
-  }) : super(key: key);
+  SeacrhFlightCard(
+      {required this.price,
+      required this.flightDate,
+      required this.flightTime,
+      this.hoursOfFlightDuration,
+      this.minutesOfFlightDuration,
+      this.airline,
+      this.airline_logo,
+      this.flightNumber,
+      this.extensions,
+      this.travelClass,
+      required this.sourceName,
+      required this.sourceCode,
+      required this.destinationName,
+      required this.destinationCode,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class SeacrhFlightCard extends StatelessWidget {
         top: 8.0,
       ),
       child: Container(
-        height: 240,
+        height: extensions != null && extensions!.isNotEmpty ? 400 : 230,
         width: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -47,14 +59,12 @@ class SeacrhFlightCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Expanded(
+            Expanded(
               child: CircleAvatar(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.white,
                 radius: 35,
-                child: Icon(
-                  Icons.flight,
-                  size: 40,
-                  color: Colors.white,
+                child: Image.network(
+                  airline_logo!,
                 ),
               ),
             ),
@@ -64,13 +74,12 @@ class SeacrhFlightCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Gap(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: Text(
-                          source,
+                          sourceName,
                           style: Styles.headlineStyle2.copyWith(fontSize: 20),
                         ),
                       ),
@@ -79,7 +88,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          destination,
+                          destinationName,
                           style: Styles.headlineStyle2.copyWith(fontSize: 20),
                         ),
                       ),
@@ -106,19 +115,23 @@ class SeacrhFlightCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 2.0),
                   Text(
-                    'Departure Time: $departureTime',
+                    'Travel Class: $travelClass',
                     style: Styles.headlineStyle4.copyWith(fontSize: 20),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
-                    'Flying Time: $flightDuration',
+                    'Departure Time: $flightTime',
                     style: Styles.headlineStyle4.copyWith(fontSize: 20),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
-                    'Date: $date',
+                    'Flying Time: ${hoursOfFlightDuration}H ${minutesOfFlightDuration}M',
+                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                  ),
+                  const SizedBox(height: 2.0),
+                  Text(
+                    'Date: $flightDate',
                     style: Styles.headlineStyle4.copyWith(fontSize: 20),
                   ),
                   const SizedBox(height: 2.0),
@@ -126,6 +139,26 @@ class SeacrhFlightCard extends StatelessWidget {
                     'Price: \$ $price',
                     style: Styles.headlineStyle4.copyWith(fontSize: 20),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  if (extensions != null && extensions!.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Extensions:',
+                          style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                        ),
+                        const SizedBox(height: 5),
+                        // Display each extension as a text widget
+                        for (var extension in extensions!)
+                          Text(
+                            extension.toString(),
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                      ],
+                    ),
                 ],
               ),
             ),

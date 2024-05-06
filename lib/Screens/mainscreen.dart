@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
@@ -7,7 +8,8 @@ import 'package:projectf/Screens/ticketsscreen.dart';
 
 class MainScreen extends StatefulWidget {
   final Users? user;
-  const MainScreen({Key? key, this.user}) : super(key: key);
+  List<FlightModel>? ticketList = [];
+  MainScreen({Key? key, this.user, this.ticketList}) : super(key: key);
   static const String id = 'mainscreen';
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -26,12 +28,8 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateBodyScreens() {
     _bodyScreens = [
-      Center(
-        child: HomeScreen(),
-      ),
-      SearchScreen(
-        users: widget.user,
-      ),
+      HomeScreen(ticketList: widget.ticketList),
+      SearchScreen(users: widget.user, ticketList: widget.ticketList!),
       TicketsScreen(
         user: widget.user,
       ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/cardtext.dart';
 
@@ -7,14 +9,15 @@ class PlaceFlightCard extends StatelessWidget {
   String sourceCode;
   String destinationName;
   String destinationCode;
-  int flyingTime;
-
+  int minutesOfFlyingTime;
+  int hoursOfFlyingTime;
   PlaceFlightCard({
     required this.sourceName,
     required this.sourceCode,
     required this.destinationName,
     required this.destinationCode,
-    required this.flyingTime,
+    required this.hoursOfFlyingTime,
+    required this.minutesOfFlyingTime,
     super.key,
   });
 
@@ -66,7 +69,7 @@ class PlaceFlightCard extends StatelessWidget {
                               textColor: Colors.white,
                               fontSize: 16),
                           Transform.rotate(
-                            angle: 90 * 3.141592653589793 / 180,
+                            angle: 90 * pi / 180,
                             child: const Icon(
                               Icons.flight,
                               color: Colors.white,
@@ -113,7 +116,7 @@ class PlaceFlightCard extends StatelessWidget {
                           fontSize: 18),
                       CardText(
                           textContent:
-                              '${(flyingTime / 60).floor()}H ${flyingTime % 60}M',
+                              '${hoursOfFlyingTime}H ${minutesOfFlyingTime}M',
                           textColor: Colors.white,
                           fontSize: 18),
                       CardText(

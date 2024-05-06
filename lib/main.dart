@@ -5,6 +5,7 @@ import 'package:projectf/Screens/loginscreen.dart';
 import 'package:projectf/Screens/mainscreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
 import 'package:projectf/Screens/signupscreen.dart';
+import 'package:projectf/Screens/splashscreen.dart';
 import 'package:projectf/constant.dart';
 import 'package:projectf/changetheme.dart';
 
@@ -50,8 +51,9 @@ class _MyAppState extends State<MyApp> {
             ),
             initialRoute: LoginScreen.id,
             routes: {
+              SplashScreen.id: (context) => SplashScreen(),
               LoginScreen.id: (context) => const LoginScreen(),
-              MainScreen.id: (context) => const MainScreen(),
+              MainScreen.id: (context) => MainScreen(),
               RegisterScreen.id: (context) => const RegisterScreen(),
               ProfileScreen.id: (context) => const ProfileScreen(),
             },

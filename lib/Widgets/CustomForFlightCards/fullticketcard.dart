@@ -8,7 +8,8 @@ class FullTicketCard extends StatelessWidget {
   String sourceCode;
   String destinationName;
   String destinationCode;
-  int flyingTime;
+  int hoursOfFlyingTime;
+  int minutesOfFlyingTime;
   String flightDate;
   String flightTime;
   String flightNumber;
@@ -24,7 +25,8 @@ class FullTicketCard extends StatelessWidget {
       required this.sourceCode,
       required this.destinationName,
       required this.destinationCode,
-      required this.flyingTime,
+      required this.hoursOfFlyingTime,
+      required this.minutesOfFlyingTime,
       super.key});
 
   @override
@@ -32,11 +34,13 @@ class FullTicketCard extends StatelessWidget {
     return Column(
       children: [
         PlaceFlightCard(
-            sourceName: sourceName,
-            sourceCode: sourceCode,
-            destinationName: destinationName,
-            destinationCode: destinationCode,
-            flyingTime: flyingTime),
+          sourceName: sourceName,
+          sourceCode: sourceCode,
+          destinationName: destinationName,
+          destinationCode: destinationCode,
+          hoursOfFlyingTime: hoursOfFlyingTime,
+          minutesOfFlyingTime: minutesOfFlyingTime,
+        ),
         TimeFlightCard(
           airlineLogo: airlineLogo,
           airlineName: airlineName,
