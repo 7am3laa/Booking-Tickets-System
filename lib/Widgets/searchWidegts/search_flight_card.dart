@@ -43,7 +43,7 @@ class SeacrhFlightCard extends StatelessWidget {
         top: 8.0,
       ),
       child: Container(
-        height: extensions != null && extensions!.isNotEmpty ? 400 : 230,
+        height: extensions != null && extensions!.isNotEmpty ? 400 : 250,
         width: double.infinity,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           sourceName,
-                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle2.copyWith(fontSize: 19),
                         ),
                       ),
                       const Expanded(
@@ -89,7 +89,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           destinationName,
-                          style: Styles.headlineStyle2.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle2.copyWith(fontSize: 19),
                         ),
                       ),
                     ],
@@ -101,7 +101,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           sourceCode,
-                          style: Styles.headlineStyle3.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle3.copyWith(fontSize: 19),
                         ),
                       ),
                       const Expanded(
@@ -110,34 +110,34 @@ class SeacrhFlightCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           destinationCode,
-                          style: Styles.headlineStyle3.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle3.copyWith(fontSize: 19),
                         ),
                       ),
                     ],
                   ),
                   Text(
                     'Travel Class: $travelClass',
-                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                    style: Styles.headlineStyle4.copyWith(fontSize: 19),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     'Departure Time: $flightTime',
-                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                    style: Styles.headlineStyle4.copyWith(fontSize: 19),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     'Flying Time: ${hoursOfFlightDuration}H ${minutesOfFlightDuration}M',
-                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                    style: Styles.headlineStyle4.copyWith(fontSize: 19),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     'Date: $flightDate',
-                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                    style: Styles.headlineStyle4.copyWith(fontSize: 19),
                   ),
                   const SizedBox(height: 2.0),
                   Text(
                     'Price: \$ $price',
-                    style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                    style: Styles.headlineStyle4.copyWith(fontSize: 19),
                   ),
                   const SizedBox(
                     height: 2,
@@ -148,7 +148,7 @@ class SeacrhFlightCard extends StatelessWidget {
                       children: [
                         Text(
                           'Extensions:',
-                          style: Styles.headlineStyle4.copyWith(fontSize: 20),
+                          style: Styles.headlineStyle4.copyWith(fontSize: 18),
                         ),
                         const SizedBox(height: 5),
                         // Display each extension as a text widget
