@@ -45,6 +45,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Details'),
@@ -189,28 +192,67 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   String des = widget.itemDetails['place'].toString();
                   int num = numberOfTickets;
                   String image = widget.itemDetails['image'].toString();
-                  int total = updateTotalPrice();
+
                   Hotel hotel = Hotel(
                     idhotel: widget.users?.id,
                     place: place,
                     destination: des,
                     numOfTickets: num,
                     image: image,
-                    pricehotel: (total * num).toString(),
+                    pricehotel: widget.itemDetails['price'].toString(),
+                    totalPrice: totalPrice.toString(),
                   );
 
                   await dataBaseHandler.saveHotel(hotel);
                   print(
                       '${widget.users?.id} ${hotel.destination} ${hotel.place} ${hotel.image} ${hotel.numOfTickets} ${hotel.pricehotel}');
-                  SnackBar snackBar = const SnackBar(
-                    content: Text(
-                      'Hotel Booked successfully',
-                    ),
-                    duration: Duration(milliseconds: 500),
-                  );
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          title: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 4.9,
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 70,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.green, width: 5),
+                                    ),
+                                    child: const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                      size: 100,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Hotel Booked successfully',
+                                    style: Styles.headlineStyle2.copyWith(
+                                        color: color,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'pa'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
                   setState(() {});
-
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 child: Text('Book Now', style: Styles.headlineStyle1),
               ),
@@ -230,31 +272,77 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ),
                 ),
                 onPressed: () async {
-                  int num = updateTotalPrice();
+                  int num = numberOfTickets;
                   Flight flight = Flight(
                     idflight: widget.users?.id,
-                    source: widget.itemDetails['departure_airport_name'],
-                    destination: widget.itemDetails['arrival_airport_name'],
-                    sourceCode: widget.itemDetails['departure_airport_id'],
-                    destinationCode: widget.itemDetails['arrival_airport_id'],
-                    date: widget.itemDetails['departure_time'].split(' ')[0],
-                    departureTime:
-                        widget.itemDetails['departure_time'].split(' ')[1],
-                    flightDuration:
-                        widget.itemDetails['flight_duration'].toString(),
-                    price: widget.itemDetails['price'].toString(),
+                    numOfTickets: num,
+                    sourceName: widget.itemDetails['departureAirportName'],
+                    destinationName: widget.itemDetails['departureAirportId'],
+                    sourceCode: widget.itemDetails['arrivalAirportName'],
+                    destinationCode: widget.itemDetails['arrivalAirportId'],
+                    flightDate:
+                        widget.itemDetails['departureTime'].split(' ')[0],
+                    flightTime:
+                        widget.itemDetails['departureTime'].split(' ')[1],
+                    price: widget.itemDetails['price'],
+                    hoursOfFlightDuration:
+                        widget.itemDetails['hoursOfFlightDuration'],
+                    minutesOfFlightDuration:
+                        widget.itemDetails['minutesOfFlightDuration'],
+                    airlineLogo: widget.itemDetails['airlineLogo'],
+                    travelClass: widget.itemDetails['travelClass'],
+                    toatalFlightPrice: totalPrice.toString(),
                   );
                   await dataBaseHandler.saveFlight(flight);
-                  print(
-                      '${widget.users?.id} | ${flight.destinationCode} | ${flight.source} | ${flight.price} | ${flight.date} | ${flight.departureTime} | ${flight.flightDuration} | ${flight.sourceCode} | ${flight.destination} ${flight.idflight}');
-                  SnackBar snackBar = const SnackBar(
-                    content: Text(
-                      'Flight Booked successfully',
-                    ),
-                    duration: Duration(milliseconds: 500),
-                  );
+                  print(flight.numOfTickets.toString());
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          title: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 4.9,
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 70,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: Colors.green, width: 5),
+                                    ),
+                                    child: const Icon(
+                                      Icons.done,
+                                      color: Colors.green,
+                                      size: 100,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Flight Booked successfully',
+                                    style: Styles.headlineStyle2.copyWith(
+                                        color: color,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'pa'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+
                   setState(() {});
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
                 child: Text('Book Now', style: Styles.headlineStyle1),
               ),

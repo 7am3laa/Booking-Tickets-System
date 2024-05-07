@@ -9,7 +9,7 @@ import 'package:path/path.dart';
 class DataBaseHandler {
   static Database? _db;
   static const String DATABASE = "mydata.db";
-  static const int VERSION = 36;
+  static const int VERSION = 41;
 //for user table
   static const String TABLE_USERS = "users";
   static const String ID = "id";
@@ -25,20 +25,26 @@ class DataBaseHandler {
   static const String DESTINATION = "destination";
   static const String IMAGE = "image";
   static const String IDHOTEL = "idhotel";
-  static const String NUM_OF_TICKETS = "numOfTickets";
+  static const String NUM_OF_TICKETS_HOTEL = "numofticketshotel";
   static const String PRICEHOTEL = "pricehotel";
+  static const String TOTAL_PRICE_HOTEL = "totalpricehotel";
   // for flight table
   static const String TABLE_FLIGHT = "flight";
   static const String IDFLIGHT = "idflight";
   static const String GLOBALIDFLIGHT = "globalidflight";
-  static const String DATE = "date";
-  static const String DEPARTURETIME = "departuretime";
-  static const String SOURCE = "source";
-  static const String DESTINATIONF = "destinationf";
-  static const String SOURCECODE = "sourcecode";
-  static const String DESTINATIONCODE = "destinationcode";
-  static const String FLYINGTIME = "flyingtime";
-  static const String PRICEFLIGHT = "priceflight";
+  static const String NUM_OF_TICKETS_FLIGHT = "numofticketsflight";
+  static const String SOURCE_NAME = "sourcename";
+  static const String DESTINATION_NAME = "destinationname";
+  static const String SOURCE_CODE = "sourcecode";
+  static const String DESTINATION_CODE = "destinationcode";
+  static const String HOUR_OF_FLIGHT_DURATION = "hourofflightduration";
+  static const String MINUTE_OF_FLIGHT_DURATION = "minuteofflightduration";
+  static const String FLIGHT_DATE = "flightdate";
+  static const String FLIGHT_TIME = "flighttime";
+  static const String AIRLINE_LOGO = "airlinelogo";
+  static const String PRICE = "price";
+  static const String TRAVEL_CLASS = "travelclass";
+  static const String TOTAL_PRICE_FLIGHT = "totalpriceflight";
 
   Future<Database?> get db async {
     if (_db == null) {
@@ -62,10 +68,10 @@ class DataBaseHandler {
         "CREATE TABLE $TABLE_USERS ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $PASSWORD TEXT, $FNAME TEXT, $LNAME TEXT, $PHONE_NUMBER TEXT);");
 
     await db.execute(
-        "CREATE TABLE $TABLE_HOTEL ($GLOBALIDHOTEL INTEGER PRIMARY KEY AUTOINCREMENT, $IDHOTEL INTEGER, $PLACE TEXT , $DESTINATION TEXT , $IMAGE TEXT , $NUM_OF_TICKETS INTEGER, $PRICEHOTEL TEXT);");
+        "CREATE TABLE $TABLE_HOTEL ($GLOBALIDHOTEL INTEGER PRIMARY KEY AUTOINCREMENT, $IDHOTEL INTEGER, $PLACE TEXT , $DESTINATION TEXT , $IMAGE TEXT , $NUM_OF_TICKETS_HOTEL INTEGER, $PRICEHOTEL TEXT, $TOTAL_PRICE_HOTEL TEXT);");
 
     await db.execute(
-        "CREATE TABLE $TABLE_FLIGHT ($GLOBALIDFLIGHT INTEGER PRIMARY KEY AUTOINCREMENT, $IDFLIGHT INTEGER, $SOURCE TEXT, $DESTINATIONF TEXT, $SOURCECODE TEXT, $DESTINATIONCODE TEXT, $DATE TEXT, $DEPARTURETIME TEXT, $FLYINGTIME TEXT, $PRICEFLIGHT TEXT);");
+        "CREATE TABLE $TABLE_FLIGHT ($GLOBALIDFLIGHT INTEGER PRIMARY KEY AUTOINCREMENT, $IDFLIGHT INTEGER, $SOURCE_NAME TEXT , $DESTINATION_NAME TEXT, $SOURCE_CODE TEXT, $DESTINATION_CODE TEXT, $HOUR_OF_FLIGHT_DURATION INTEGER, $MINUTE_OF_FLIGHT_DURATION INTEGER, $FLIGHT_DATE TEXT, $FLIGHT_TIME TEXT, $AIRLINE_LOGO TEXT, $PRICE INTEGER, $TRAVEL_CLASS TEXT, $TOTAL_PRICE_FLIGHT TEXT, $NUM_OF_TICKETS_FLIGHT INTEGER);");
   }
 
   _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -82,14 +88,19 @@ class DataBaseHandler {
     Database? dbClient = await db;
     int id = await dbClient!.insert(TABLE_FLIGHT, {
       'idflight': flight.idflight,
-      'source': flight.source,
-      'destinationf': flight.destination,
+      'sourcename': flight.sourceName,
+      'destinationname': flight.destinationName,
       'sourcecode': flight.sourceCode,
       'destinationcode': flight.destinationCode,
-      'date': flight.date,
-      'departuretime': flight.departureTime,
-      'flyingtime': flight.flightDuration,
-      'priceflight': flight.price
+      'hourofflightduration': flight.hoursOfFlightDuration,
+      'minuteofflightduration': flight.minutesOfFlightDuration,
+      'flightdate': flight.flightDate,
+      'flighttime': flight.flightTime,
+      'airlinelogo': flight.airlineLogo,
+      'price': flight.price,
+      'travelclass': flight.travelClass,
+      'totalpriceflight': flight.toatalFlightPrice,
+      'numofticketsflight': flight.numOfTickets
     });
     return id;
   }
@@ -106,14 +117,19 @@ class DataBaseHandler {
         Flight flight = Flight(
           id: map[GLOBALIDFLIGHT],
           idflight: map[IDFLIGHT],
-          source: map[SOURCE],
-          destination: map[DESTINATIONF],
-          sourceCode: map[SOURCECODE],
-          destinationCode: map[DESTINATIONCODE],
-          date: map[DATE],
-          departureTime: map[DEPARTURETIME],
-          flightDuration: map[FLYINGTIME],
-          price: map[PRICEFLIGHT],
+          sourceName: map[SOURCE_NAME],
+          destinationName: map[DESTINATION_NAME],
+          sourceCode: map[SOURCE_CODE],
+          destinationCode: map[DESTINATION_CODE],
+          hoursOfFlightDuration: map[HOUR_OF_FLIGHT_DURATION],
+          minutesOfFlightDuration: map[MINUTE_OF_FLIGHT_DURATION],
+          flightDate: map[FLIGHT_DATE],
+          flightTime: map[FLIGHT_TIME],
+          airlineLogo: map[AIRLINE_LOGO],
+          price: map[PRICE],
+          travelClass: map[TRAVEL_CLASS],
+          toatalFlightPrice: map[TOTAL_PRICE_FLIGHT],
+          numOfTickets: map[NUM_OF_TICKETS_FLIGHT],
         );
         flightList.add(flight);
       }
@@ -135,8 +151,9 @@ class DataBaseHandler {
       'place': hotel.place,
       'destination': hotel.destination,
       'image': hotel.image,
-      'numOfTickets': hotel.numOfTickets,
-      'pricehotel': hotel.pricehotel
+      'numofticketshotel': hotel.numOfTickets,
+      'pricehotel': hotel.pricehotel,
+      'totalpricehotel': hotel.totalPrice
     });
     return id;
   }
@@ -156,8 +173,9 @@ class DataBaseHandler {
           place: map[PLACE],
           destination: map[DESTINATION],
           image: map[IMAGE],
-          numOfTickets: map[NUM_OF_TICKETS],
+          numOfTickets: map[NUM_OF_TICKETS_HOTEL],
           pricehotel: map[PRICEHOTEL],
+          totalPrice: map[TOTAL_PRICE_HOTEL],
         );
         hotelsList.add(hotel);
       }

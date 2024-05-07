@@ -1,25 +1,35 @@
 class Flight {
   int? id;
   int? idflight;
-  String? source;
-  String? destination;
+  int? numOfTickets;
+  String? sourceName;
+  String? destinationName;
   String? sourceCode;
   String? destinationCode;
-  String? date;
-  String? departureTime;
-  String? flightDuration;
-  String? price;
+  int? hoursOfFlightDuration;
+  int? minutesOfFlightDuration;
+  String? flightDate;
+  String? flightTime;
+  String? airlineLogo;
+  int? price;
+  String? travelClass;
+  String? toatalFlightPrice;
 
   Flight({
     this.id,
     this.idflight,
-    this.source,
-    this.destination,
+    this.numOfTickets,
+    this.sourceName,
+    this.destinationName,
     this.sourceCode,
     this.destinationCode,
-    this.date,
-    this.departureTime,
-    this.flightDuration,
+    this.hoursOfFlightDuration,
+    this.minutesOfFlightDuration,
+    this.flightDate,
+    this.flightTime,
+    this.airlineLogo,
     this.price,
+    this.travelClass,
+    this.toatalFlightPrice
   });
 }

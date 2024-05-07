@@ -1,6 +1,7 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:http/http.dart';
+
 import 'package:projectf/constant.dart';
 
 class SeacrhFlightCard extends StatelessWidget {
@@ -155,7 +156,7 @@ class SeacrhFlightCard extends StatelessWidget {
                         for (var extension in extensions!)
                           Text(
                             extension.toString(),
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           ),
                       ],
                     ),

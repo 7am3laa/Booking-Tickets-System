@@ -3,7 +3,6 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:projectf/API/flightModel.dart';
-import 'package:projectf/DataBase/flight_ticket.dart';
 
 class FetchFlights {
   FetchFlights();
