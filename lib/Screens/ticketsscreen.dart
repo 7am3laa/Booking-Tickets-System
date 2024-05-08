@@ -214,7 +214,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                                     onTap:
                                                                         () async {
                                                                       await dataBaseHandler
-                                                                          .deleteFlight(
+                                                                          .deleteHotel(
                                                                               hotels[index].id!);
                                                                       Navigator.pop(
                                                                           context);
