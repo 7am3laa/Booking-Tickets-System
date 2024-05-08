@@ -277,8 +277,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     idflight: widget.users?.id,
                     numOfTickets: num,
                     sourceName: widget.itemDetails['departureAirportName'],
-                    destinationName: widget.itemDetails['departureAirportId'],
-                    sourceCode: widget.itemDetails['arrivalAirportName'],
+                    destinationName: widget.itemDetails['arrivalAirportName'],
+                    sourceCode: widget.itemDetails['departureAirportId'],
                     destinationCode: widget.itemDetails['arrivalAirportId'],
                     flightDate:
                         widget.itemDetails['departureTime'].split(' ')[0],
