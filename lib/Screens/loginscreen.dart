@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   DataBaseHandler dataBaseHandler = DataBaseHandler();
@@ -43,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SnackBar(
             content: Text(
               'Invalid password',
-              style: Styles.headlineStyle2.copyWith(color: Colors.white),
+              style: Styles.headlineStyle3.copyWith(color: Colors.white),
             ),
             duration: const Duration(milliseconds: 500),
           ),
@@ -80,19 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.white.withOpacity(.7);
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 33, 90, 160),
-              Color.fromARGB(255, 62, 92, 101)
-            ],
-          ),
-        ),
+      body: Form(
+        key: _formKey,
         child: Center(
           child: Container(
             height: AppLayout.getHeight(context) / 2,
@@ -106,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text('Login',
                         style: Styles.headlineStyle1
-                            .copyWith(fontSize: 35, color: Colors.white)),
+                            .copyWith(fontSize: 35, color: color)),
                     Container(
                       height: 50,
                       width: 50,
@@ -125,9 +119,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const Gap(20),
                         CustomTxtField(
+                          keyboardType: TextInputType.emailAddress,
+                          validatorMessage: 'Please enter username',
                           isobscureText: false,
                           Controller: _usernameController,
-                          labelText: 'Username',
+                          labelText: 'Email or Username',
                           suffixIcon: null,
                           prefixIcon: Icon(
                             Icons.mail,
@@ -136,6 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
+                            keyboardType: TextInputType.visiblePassword,
+                            validatorMessage: 'Please enter password',
                             prefixIcon: Icon(
                               Icons.lock,
                               color: color,
@@ -162,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Text('Don\'t have an account?',
                                 style: Styles.headlineStyle3
-                                    .copyWith(color: Colors.white)),
+                                    .copyWith(color: color)),
                             InkWell(
                               onTap: () {
                                 Navigator.push(
@@ -176,16 +174,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(' Register',
                                   style: Styles.headlineStyle3.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color:
-                                        const Color.fromARGB(255, 17, 22, 26),
+                                    color: Colors.blue,
                                   )),
                             ),
                           ],
                         ),
                         const Gap(20),
                         Button(
-                          color: const Color.fromARGB(255, 31, 56, 75),
+                          width: 1.5,
+                          textColor: theme.brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.white,
+                          color: color,
                           onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() {});
+                            }
                             _login();
                           },
                           text: 'Login',
