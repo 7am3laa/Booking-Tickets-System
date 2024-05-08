@@ -1,11 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:projectf/constant.dart';
 
 class CustomTxtField extends StatefulWidget {
   final String labelText;
+  final String validatorMessage;
   final TextEditingController Controller;
+  final TextInputType keyboardType;
   Widget? suffixIcon;
   Widget? prefixIcon;
   bool isobscureText;
@@ -16,6 +17,7 @@ class CustomTxtField extends StatefulWidget {
     required this.isobscureText,
     @required this.suffixIcon,
     @required this.prefixIcon,
+    required this.validatorMessage, required this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -25,12 +27,20 @@ class CustomTxtField extends StatefulWidget {
 class _CustomTxtFieldState extends State<CustomTxtField> {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return SizedBox(
-      width: AppLayout.getWidth(context) / 1.5,
-      child: TextField(
-        cursorColor: Colors.black,
+      width: MediaQuery.of(context).size.width / 1.5,
+      child: TextFormField(
+        keyboardType: widget.keyboardType,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return widget.validatorMessage;
+          }
+          return null;
+        },
         cursorWidth: 3,
-        obscuringCharacter: '*',
         controller: widget.Controller,
         obscureText: widget.isobscureText,
         style: const TextStyle(
@@ -39,24 +49,23 @@ class _CustomTxtFieldState extends State<CustomTxtField> {
             fontFamily: 'pa',
             fontWeight: FontWeight.bold),
         decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: color),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: .5),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: color, width: .5),
           ),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: .5),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: color, width: .5),
           ),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.suffixIcon,
           hintText: widget.labelText,
           hintStyle: TextStyle(
             fontSize: 20,
-            color: Colors.white.withOpacity(.5),
-            fontFamily: 'pa',
+            color: color.withOpacity(.5),
           ),
         ),
       ),

@@ -26,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   bool isPassword = true;
   DataBaseHandler dataBaseHandler = DataBaseHandler();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> _register() async {
     String name = _usernameController.text;
@@ -75,19 +76,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.white.withOpacity(.7);
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
+
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 33, 90, 160),
-              Color.fromARGB(255, 62, 92, 101)
-            ],
-          ),
-        ),
+      body: Form(
+        key: _formKey,
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -103,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Text(
                       'Register',
                       style: Styles.headlineStyle1
-                          .copyWith(fontSize: 35, color: Colors.white),
+                          .copyWith(fontSize: 35, color: color),
                     ),
                     Container(
                       height: 50,
@@ -123,6 +118,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         const Gap(20),
                         CustomTxtField(
+                          keyboardType: TextInputType.name,
+                          validatorMessage: 'Please Enter Your First Name',
                           isobscureText: false,
                           Controller: _fNameController,
                           labelText: 'First Name',
@@ -131,6 +128,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
+                          keyboardType: TextInputType.name,
+                          validatorMessage: 'Please Enter Your Last Name',
                           isobscureText: false,
                           Controller: _lNameController,
                           labelText: 'Last Name',
@@ -142,9 +141,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
+                          keyboardType: TextInputType.emailAddress,
+                          validatorMessage: 'Please Enter Your Username',
                           isobscureText: false,
                           Controller: _usernameController,
-                          labelText: 'Username',
+                          labelText: 'Email or Username',
                           suffixIcon: null,
                           prefixIcon: Icon(
                             Icons.mail,
@@ -153,6 +154,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
+                          keyboardType: TextInputType.phone,
+                          validatorMessage: 'Please Enter Your Phone Number',
                           isobscureText: false,
                           Controller: _phoneNumberController,
                           labelText: 'Phone Number',
@@ -164,6 +167,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
+                          keyboardType: TextInputType.visiblePassword,
+                          validatorMessage: 'Please Enter Your Password',
                           prefixIcon: Icon(Icons.lock, color: color),
                           suffixIcon: InkWell(
                             onTap: () {
@@ -175,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               isPassword
                                   ? Icons.visibility_off_outlined
                                   : Icons.remove_red_eye_outlined,
-                              color: Colors.white.withOpacity(.9),
+                              color: color,
                             ),
                           ),
                           isobscureText: isPassword,
@@ -189,7 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Text(
                               'Already have an account?',
                               style: Styles.headlineStyle3
-                                  .copyWith(fontSize: 18, color: Colors.white),
+                                  .copyWith(fontSize: 18, color: color),
                             ),
                             InkWell(
                               onTap: () {
@@ -200,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 style: Styles.headlineStyle3.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: const Color.fromARGB(255, 17, 22, 26),
+                                  color: Colors.blue,
                                 ),
                               ),
                             ),
@@ -208,8 +213,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const Gap(20),
                         Button(
-                            color: const Color.fromARGB(255, 31, 56, 75),
+                            width: 1.5,
+                            textColor: theme.brightness == Brightness.dark
+                                ? Colors.black
+                                : Colors.white,
+                            color: color,
                             onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {});
+                              }
                               _register();
                             },
                             text: 'Register')

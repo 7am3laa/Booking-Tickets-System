@@ -6,6 +6,7 @@ import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/DataBase/flight_ticket.dart';
 import 'package:projectf/DataBase/hotel_ticket.dart';
 import 'package:projectf/DataBase/user.dart';
+import 'package:projectf/Widgets/CustomsForAuth/button.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
@@ -208,95 +209,39 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                           actions: [
                                                             Column(
                                                               children: [
-                                                                InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    await dataBaseHandler
-                                                                        .deleteHotel(
-                                                                            hotels[index].id!);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    setState(
-                                                                        () {});
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .red
-                                                                          .shade600,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(0.5),
-                                                                          spreadRadius:
-                                                                              5,
-                                                                          blurRadius:
-                                                                              7,
-                                                                          offset: const Offset(
-                                                                              0,
-                                                                              3),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    child: Text(
+                                                                Button(
+                                                                    width: 1,
+                                                                    onTap:
+                                                                        () async {
+                                                                      await dataBaseHandler
+                                                                          .deleteFlight(
+                                                                              hotels[index].id!);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    text:
                                                                         'Delete',
-                                                                        style: Styles
-                                                                            .headlineStyle2
-                                                                            .copyWith(color: Colors.white)),
-                                                                  ),
-                                                                ),
+                                                                    color: Colors
+                                                                        .red,
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white),
                                                                 const Gap(10),
-                                                                InkWell(
+                                                                Button(
+                                                                  width: 1,
                                                                   onTap: () {
                                                                     Navigator.pop(
                                                                         context);
                                                                   },
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(0.5),
-                                                                          spreadRadius:
-                                                                              5,
-                                                                          blurRadius:
-                                                                              7,
-                                                                          offset: const Offset(
-                                                                              0,
-                                                                              3),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    child: Text(
+                                                                  text:
                                                                       'Cancel',
-                                                                      style: Styles
-                                                                          .headlineStyle2
-                                                                          .copyWith(
-                                                                              color: Colors.black),
-                                                                    ),
-                                                                  ),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  textColor:
+                                                                      Colors
+                                                                          .black,
                                                                 ),
                                                               ],
                                                             ),
@@ -362,95 +307,90 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                     top: 5,
                                     bottom: 5,
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 5,
-                                            blurRadius: 7,
-                                            offset: const Offset(0, 3),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          SeacrhFlightCard(
-                                            sourceCode: flights[index]
-                                                .sourceCode
-                                                .toString(),
-                                            destinationCode: flights[index]
-                                                .destinationCode
-                                                .toString(),
-                                            sourceName: flights[index]
-                                                .sourceName
-                                                .toString(),
-                                            destinationName: flights[index]
-                                                .destinationName
-                                                .toString(),
-                                            flightDate: flights[index]
-                                                .flightDate
-                                                .toString(),
-                                            flightTime: flights[index]
-                                                .flightTime
-                                                .toString(),
-                                            hoursOfFlightDuration:
-                                                flights[index]
-                                                    .hoursOfFlightDuration,
-                                            minutesOfFlightDuration:
-                                                flights[index]
-                                                    .minutesOfFlightDuration,
-                                            airline_logo:
-                                                flights[index].airlineLogo,
-                                            price: flights[index].price!,
-                                            travelClass:
-                                                flights[index].travelClass,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0, vertical: 10),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  '\$ ${flights[index].toatalFlightPrice} / ${flights[index].numOfTickets.toString()} Tickets',
-                                                  style: Styles.headlineStyle2
-                                                      .copyWith(
-                                                    color: Colors.black,
-                                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        SeacrhFlightCard(
+                                          sourceCode: flights[index]
+                                              .sourceCode
+                                              .toString(),
+                                          destinationCode: flights[index]
+                                              .destinationCode
+                                              .toString(),
+                                          sourceName: flights[index]
+                                              .sourceName
+                                              .toString(),
+                                          destinationName: flights[index]
+                                              .destinationName
+                                              .toString(),
+                                          flightDate: flights[index]
+                                              .flightDate
+                                              .toString(),
+                                          flightTime: flights[index]
+                                              .flightTime
+                                              .toString(),
+                                          hoursOfFlightDuration: flights[index]
+                                              .hoursOfFlightDuration!,
+                                          minutesOfFlightDuration:
+                                              flights[index]
+                                                  .minutesOfFlightDuration!,
+                                          airline_logo:
+                                              flights[index].airlineLogo!,
+                                          price: flights[index].price!,
+                                          travelClass:
+                                              flights[index].travelClass!,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '\$ ${flights[index].toatalFlightPrice} / ${flights[index].numOfTickets.toString()} Tickets',
+                                                style: Styles.headlineStyle2
+                                                    .copyWith(
+                                                  color: Colors.black,
                                                 ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return AlertDialog(
-                                                          title: Text(
-                                                            'Delete Ticket',
-                                                            style: Styles
-                                                                .headlineStyle1
-                                                                .copyWith(
-                                                                    color:
-                                                                        color),
-                                                          ),
-                                                          content: Text(
-                                                            'Are you sure you want to delete this ticket?',
-                                                            style: Styles
-                                                                .headlineStyle2
-                                                                .copyWith(
-                                                                    color:
-                                                                        color),
-                                                          ),
-                                                          actions: [
-                                                            Column(
-                                                              children: [
-                                                                InkWell(
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                          'Delete Ticket',
+                                                          style: Styles
+                                                              .headlineStyle1
+                                                              .copyWith(
+                                                                  color: color),
+                                                        ),
+                                                        content: Text(
+                                                          'Are you sure you want to delete this ticket?',
+                                                          style: Styles
+                                                              .headlineStyle2
+                                                              .copyWith(
+                                                                  color: color),
+                                                        ),
+                                                        actions: [
+                                                          Column(
+                                                            children: [
+                                                              Button(
+                                                                  width: 1,
                                                                   onTap:
                                                                       () async {
                                                                     await dataBaseHandler
@@ -461,103 +401,44 @@ class _TicketsScreenState extends State<TicketsScreen> {
                                                                     setState(
                                                                         () {});
                                                                   },
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .red
-                                                                          .shade600,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(0.5),
-                                                                          spreadRadius:
-                                                                              5,
-                                                                          blurRadius:
-                                                                              7,
-                                                                          offset: const Offset(
-                                                                              0,
-                                                                              3),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    child: Text(
-                                                                        'Delete',
-                                                                        style: Styles
-                                                                            .headlineStyle2
-                                                                            .copyWith(color: Colors.white)),
-                                                                  ),
-                                                                ),
-                                                                const Gap(10),
-                                                                InkWell(
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10),
-                                                                      boxShadow: [
-                                                                        BoxShadow(
-                                                                          color: Colors
-                                                                              .grey
-                                                                              .withOpacity(0.5),
-                                                                          spreadRadius:
-                                                                              5,
-                                                                          blurRadius:
-                                                                              7,
-                                                                          offset: const Offset(
-                                                                              0,
-                                                                              3),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    child: Text(
-                                                                      'Cancel',
-                                                                      style: Styles
-                                                                          .headlineStyle2
-                                                                          .copyWith(
-                                                                              color: Colors.black),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    size: 30,
-                                                    color: Colors.red.shade600,
-                                                  ),
+                                                                  text:
+                                                                      'Delete',
+                                                                  color: Colors
+                                                                      .red,
+                                                                  textColor:
+                                                                      Colors
+                                                                          .white),
+                                                              const Gap(10),
+                                                              Button(
+                                                                width: 1,
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                text: 'Cancel',
+                                                                color: Colors
+                                                                    .white,
+                                                                textColor:
+                                                                    Colors
+                                                                        .black,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 30,
+                                                  color: Colors.red.shade600,
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 );
