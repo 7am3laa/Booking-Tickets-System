@@ -1,13 +1,14 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/Cubits/theme-Cubit/theme_cubit.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/loginscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/edit.dart';
 import 'package:projectf/constant.dart';
-import 'package:projectf/changetheme.dart';
 
 class ProfileScreen extends StatefulWidget {
   final Users? user;
@@ -121,7 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ChangeTheme.of(context)!.data?.isDark == true
+                      context.read<ThemeCubit>().state.brightness ==
+                              Brightness.dark
                           ? Text(
                               'Light Mode',
                               style:
@@ -134,10 +136,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                       InkWell(
                         onTap: () {
-                          ChangeTheme.of(context)?.data?.toggleTheme();
-                          setState(() {});
+                          context.read<ThemeCubit>().toggleTheme();
                         },
-                        child: ChangeTheme.of(context)!.data?.isDark == true
+                        child: context.read<ThemeCubit>().state.brightness ==
+                                Brightness.dark
                             ? const Icon(
                                 Icons.light_mode_outlined,
                                 size: 30,
