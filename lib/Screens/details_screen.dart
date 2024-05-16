@@ -110,26 +110,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ListTile(
-                    title: SeacrhFlightCard(
-                      sourceName: widget.itemDetails['departureAirportName'],
-                      sourceCode: widget.itemDetails['departureAirportId'],
-                      destinationName: widget.itemDetails['arrivalAirportName'],
-                      destinationCode: widget.itemDetails['arrivalAirportId'],
-                      hoursOfFlightDuration:
-                          widget.itemDetails['hoursOfFlightDuration'],
-                      minutesOfFlightDuration:
-                          widget.itemDetails['minutesOfFlightDuration'],
-                      flightDate:
-                          widget.itemDetails['departureTime'].split(' ')[0],
-                      flightTime:
-                          widget.itemDetails['departureTime'].split(' ')[1],
-                      flightNumber: widget.itemDetails['flightNumber'],
-                      airline: widget.itemDetails['airline'],
-                      airline_logo: widget.itemDetails['airlineLogo'],
-                      price: widget.itemDetails['price'],
-                      extensions: widget.itemDetails['extensions'],
-                      travelClass: widget.itemDetails['travelClass'],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: ListTile(
+                      title: SeacrhFlightCard(
+                        sourceName: widget.itemDetails['departureAirportName'],
+                        sourceCode: widget.itemDetails['departureAirportId'],
+                        destinationName:
+                            widget.itemDetails['arrivalAirportName'],
+                        destinationCode: widget.itemDetails['arrivalAirportId'],
+                        hoursOfFlightDuration:
+                            widget.itemDetails['hoursOfFlightDuration'],
+                        minutesOfFlightDuration:
+                            widget.itemDetails['minutesOfFlightDuration'],
+                        flightDate:
+                            widget.itemDetails['departureTime'].split(' ')[0],
+                        flightTime:
+                            widget.itemDetails['departureTime'].split(' ')[1],
+                        flightNumber: widget.itemDetails['flightNumber'],
+                        airline: widget.itemDetails['airline'],
+                        airline_logo: widget.itemDetails['airlineLogo'],
+                        price: widget.itemDetails['price'],
+                        extensions: widget.itemDetails['extensions'],
+                        travelClass: widget.itemDetails['travelClass'],
+                      ),
                     ),
                   ),
                   Padding(
@@ -190,68 +194,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 onPressed: () async {
                   String place = widget.itemDetails['name'].toString();
                   String des = widget.itemDetails['place'].toString();
-                  int num = numberOfTickets;
+
                   String image = widget.itemDetails['image'].toString();
-
+                  int idhotel = widget.users!.id!;
+                  String priceHotel = widget.itemDetails['price'].toString();
+                  String totalprice = totalPrice.toString();
                   Hotel hotel = Hotel(
-                    idhotel: widget.users?.id,
-                    place: place,
-                    destination: des,
-                    numOfTickets: num,
-                    image: image,
-                    pricehotel: widget.itemDetails['price'].toString(),
-                    totalPrice: totalPrice.toString(),
-                  );
-
+                      numOfTickets: numberOfTickets,
+                      idhotel: idhotel,
+                      place: place,
+                      destination: des,
+                      pricehotel: priceHotel,
+                      totalPrice: totalprice,
+                      image: image);
                   await dataBaseHandler.saveHotel(hotel);
                   print(
                       '${widget.users?.id} ${hotel.destination} ${hotel.place} ${hotel.image} ${hotel.numOfTickets} ${hotel.pricehotel}');
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          title: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 4.9,
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 70,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.green, width: 5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                      size: 100,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Hotel Booked successfully',
-                                    style: Styles.headlineStyle2.copyWith(
-                                        color: color,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'pa'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      });
+                  showOK(context, color, 'Hotel');
                   setState(() {});
                 },
                 child: Text('Book Now', style: Styles.headlineStyle1),
@@ -295,52 +254,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   );
                   await dataBaseHandler.saveFlight(flight);
                   print(flight.numOfTickets.toString());
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          title: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 4.9,
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 70,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.green, width: 5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.done,
-                                      color: Colors.green,
-                                      size: 100,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Flight Booked successfully',
-                                    style: Styles.headlineStyle2.copyWith(
-                                        color: color,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'pa'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      });
+                  showOK(context, color, 'Flight');
 
                   setState(() {});
                 },
@@ -348,5 +262,53 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ),
     );
+  }
+
+  Future<dynamic> showOK(BuildContext context, Color color, String name) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 4.9,
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 70,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                        border: Border.all(color: Colors.green, width: 5),
+                      ),
+                      child: const Icon(
+                        Icons.done,
+                        color: Colors.green,
+                        size: 100,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '$name Booked successfully',
+                      style: Styles.headlineStyle2.copyWith(
+                          color: color,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'pa'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

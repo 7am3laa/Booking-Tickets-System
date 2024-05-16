@@ -41,19 +41,24 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       } else if (username == user.name && password != user.password) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
             content: Text(
               'Invalid password',
-              style: Styles.headlineStyle3.copyWith(color: Colors.white),
+              style: TextStyle(fontSize: 15),
             ),
-            duration: const Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 500),
           ),
         );
         return;
       } else if (username == "" && password == "") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Please enter username and password'),
+            backgroundColor: Colors.red,
+            content: Text(
+              'Please enter username and password',
+              style: TextStyle(fontSize: 15),
+            ),
             duration: Duration(milliseconds: 500),
           ),
         );
@@ -72,7 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Invalid username'),
+          backgroundColor: Colors.red,
+          content: Text(
+            'Invalid username',
+            style: TextStyle(fontSize: 15),
+          ),
           duration: Duration(milliseconds: 500),
         ),
       );
@@ -89,9 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _formKey,
         child: Center(
           child: Container(
-            height: AppLayout.getHeight(context) / 2,
-            padding: EdgeInsets.symmetric(
-                horizontal: (AppLayout.getWidth(context) / 2) / 3),
+            padding: const EdgeInsets.all(20),
+            width: AppLayout.getWidth(context),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -112,89 +120,83 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        const Gap(20),
-                        CustomTxtField(
-                          keyboardType: TextInputType.emailAddress,
-                          validatorMessage: 'Please enter username',
-                          isobscureText: false,
-                          Controller: _usernameController,
-                          labelText: 'Email or Username',
-                          suffixIcon: null,
-                          prefixIcon: Icon(
-                            Icons.mail,
+                    const Gap(20),
+                    CustomTxtField(
+                      keyboardType: TextInputType.emailAddress,
+                      validatorMessage: 'Please enter username',
+                      isobscureText: false,
+                      Controller: _usernameController,
+                      labelText: 'Email or Username',
+                      suffixIcon: null,
+                      prefixIcon: Icon(
+                        Icons.mail,
+                        color: color,
+                      ),
+                    ),
+                    const Gap(10),
+                    CustomTxtField(
+                        keyboardType: TextInputType.visiblePassword,
+                        validatorMessage: 'Please enter password',
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: color,
+                        ),
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isPassword = !isPassword;
+                            });
+                          },
+                          child: Icon(
+                            isPassword
+                                ? Icons.visibility_off_outlined
+                                : Icons.remove_red_eye_outlined,
                             color: color,
                           ),
                         ),
-                        const Gap(10),
-                        CustomTxtField(
-                            keyboardType: TextInputType.visiblePassword,
-                            validatorMessage: 'Please enter password',
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: color,
-                            ),
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isPassword = !isPassword;
-                                });
-                              },
-                              child: Icon(
-                                isPassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.remove_red_eye_outlined,
-                                color: color,
-                              ),
-                            ),
-                            isobscureText: isPassword,
-                            Controller: _passwordController,
-                            labelText: 'Password'),
-                        const Gap(20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text('Don\'t have an account?',
-                                style: Styles.headlineStyle3
-                                    .copyWith(color: color)),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(' Register',
-                                  style: Styles.headlineStyle3.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        const Gap(20),
-                        Button(
-                          width: 1.5,
-                          textColor: theme.brightness == Brightness.dark
-                              ? Colors.black
-                              : Colors.white,
-                          color: color,
+                        isobscureText: isPassword,
+                        Controller: _passwordController,
+                        labelText: 'Password'),
+                    const Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Don\'t have an account?',
+                            style:
+                                Styles.headlineStyle3.copyWith(color: color)),
+                        InkWell(
                           onTap: () {
-                            if (_formKey.currentState!.validate()) {
-                              setState(() {});
-                            }
-                            _login();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterScreen(),
+                              ),
+                            );
                           },
-                          text: 'Login',
+                          child: Text(' Register',
+                              style: Styles.headlineStyle3.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              )),
                         ),
                       ],
+                    ),
+                    const Gap(20),
+                    Button(
+                      width: 1.5,
+                      textColor: theme.brightness == Brightness.dark
+                          ? Colors.black
+                          : Colors.white,
+                      color: color,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {});
+                        }
+                        _login();
+                      },
+                      text: 'Login',
                     ),
                   ],
                 ),

@@ -17,7 +17,8 @@ class CustomTxtField extends StatefulWidget {
     required this.isobscureText,
     @required this.suffixIcon,
     @required this.prefixIcon,
-    required this.validatorMessage, required this.keyboardType,
+    required this.validatorMessage,
+    required this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -31,7 +32,7 @@ class _CustomTxtFieldState extends State<CustomTxtField> {
     Color color =
         theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.5,
+      width: MediaQuery.of(context).size.width,
       child: TextFormField(
         keyboardType: widget.keyboardType,
         validator: (value) {
