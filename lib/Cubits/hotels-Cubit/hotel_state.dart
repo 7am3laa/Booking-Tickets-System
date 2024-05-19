@@ -1,6 +1,6 @@
 import 'package:projectf/DataBase/hotel_ticket.dart';
 
-class HotelState {}
+abstract class HotelState {}
 
 class LoadingHotelState extends HotelState {}
 

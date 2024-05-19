@@ -1,8 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/manage_Ticket_screen_State.dart';
+import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/ticketscreen_cubit.dart';
 import 'package:projectf/Cubits/flight-Cubit/flight_cubit.dart';
 import 'package:projectf/Cubits/flight-Cubit/flight_state.dart';
 import 'package:projectf/Cubits/hotels-Cubit/hotel_cubit.dart';
@@ -13,21 +15,13 @@ import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
 
-class TicketsScreen extends StatefulWidget {
+class TicketsScreen extends StatelessWidget {
   final Users? user;
 
   const TicketsScreen({
     this.user,
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<TicketsScreen> createState() => _TicketsScreenState();
-}
-
-class _TicketsScreenState extends State<TicketsScreen> {
-  bool isHotel = false;
-  bool isSelected = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,284 +41,313 @@ class _TicketsScreenState extends State<TicketsScreen> {
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = true;
-                    isHotel = false;
-                  });
-                },
-                child: Container(
-                  width: AppLayout.getWidth(context) / 2.2,
-                  height: 55,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isSelected ? Colors.white : Colors.grey.shade300,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      bottomLeft: Radius.circular(32),
-                    ),
-                    border: Border.all(color: Colors.grey.shade400),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Flights Booked',
-                      style: Styles.headlineStyle2.copyWith(
-                        color: isSelected ? Colors.black : Colors.grey.shade600,
+      body: BlocProvider(
+        create: (context) => TicketScreenCubit(),
+        child: BlocBuilder<TicketScreenCubit, TicketsState>(
+            builder: (context, state) {
+          if (state is FlightOrHotelState) {
+            bool isSelected = state.isSelected;
+            bool isHotel = state.isHotel;
+            return Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<TicketScreenCubit>()
+                            .selectScreen(true, false);
+                      },
+                      child: Container(
+                        width: AppLayout.getWidth(context) / 2.2,
+                        height: 55,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color:
+                              isSelected ? Colors.white : Colors.grey.shade300,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(32),
+                            bottomLeft: Radius.circular(32),
+                          ),
+                          border: Border.all(color: Colors.grey.shade400),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Flights Booked',
+                            style: Styles.headlineStyle2.copyWith(
+                              color: isSelected
+                                  ? Colors.black
+                                  : Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isSelected = false;
-                    isHotel = true;
-                  });
-                },
-                child: Container(
-                  width: AppLayout.getWidth(context) / 2.2,
-                  height: 55,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isSelected ? Colors.grey.shade300 : Colors.white,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(32),
-                      bottomRight: Radius.circular(32),
-                    ),
-                    border: Border.all(color: Colors.grey.shade400),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Hotels Booked',
-                      style: Styles.headlineStyle2.copyWith(
-                        color: isSelected ? Colors.grey.shade600 : Colors.black,
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<TicketScreenCubit>()
+                            .selectScreen(false, true);
+                      },
+                      child: Container(
+                        width: AppLayout.getWidth(context) / 2.2,
+                        height: 55,
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color:
+                              isSelected ? Colors.grey.shade300 : Colors.white,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(32),
+                            bottomRight: Radius.circular(32),
+                          ),
+                          border: Border.all(color: Colors.grey.shade400),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Hotels Booked',
+                            style: Styles.headlineStyle2.copyWith(
+                              color: isSelected
+                                  ? Colors.grey.shade600
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          isHotel
-              ? Expanded(
+                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 5, top: 5),
-                    child: BlocProvider(
-                      create: (context) =>
-                          HotelCubit()..getHotelsForUser(widget.user!.id),
-                      child: BlocBuilder<HotelCubit, HotelState>(
-                        builder: (context, state) {
-                          if (state is LoadingHotelState) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (state is LoadedHotelState) {
-                            return ListView.builder(
-                              itemCount: state.hotel.length,
-                              itemBuilder: (context, index) {
-                                var data = state.hotel[index];
-                                print('${data.id} + $index');
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SearchHotelCard(
-                                          image:
-                                              'assets/images/hotels/${data.image}',
-                                          name: data.place.toString(),
-                                          place: data.destination.toString(),
-                                          price: data.pricehotel!,
-                                        ),
-                                        const Gap(10),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                    child: isHotel
+                        ? BlocProvider(
+                            create: (context) =>
+                                HotelCubit()..getHotelsForUser(user!.id),
+                            child: BlocBuilder<HotelCubit, HotelState>(
+                              builder: (context, state) {
+                                if (state is LoadingHotelState) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (state is LoadedHotelState) {
+                                  return ListView.builder(
+                                    itemCount: state.hotel.length,
+                                    itemBuilder: (context, index) {
+                                      var data = state.hotel[index];
+                                      print('${data.id} + $index');
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                blurRadius: 5,
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
                                             children: [
-                                              Text(
-                                                '\$ ${data.totalPrice!} / ${data.numOfTickets!} nights',
-                                                style: Styles.headlineStyle3
-                                                    .copyWith(
-                                                  color: color,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                              SearchHotelCard(
+                                                image:
+                                                    'assets/images/hotels/${data.image}',
+                                                name: data.place.toString(),
+                                                place:
+                                                    data.destination.toString(),
+                                                price: data.pricehotel!,
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  _showDialog(context, () {
-                                                    BlocProvider.of<HotelCubit>(
-                                                            context)
-                                                        .deleteHotelForUser(
-                                                            data.id!,
-                                                            widget.user!.id!);
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                child: const Icon(
-                                                  Icons.delete_forever,
-                                                  color: Colors.red,
-                                                  size: 25,
+                                              const Gap(10),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      '\$ ${data.totalPrice!} / ${data.numOfTickets!} nights',
+                                                      style: Styles
+                                                          .headlineStyle3
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        _showDialog(context,
+                                                            () {
+                                                          BlocProvider.of<
+                                                                      HotelCubit>(
+                                                                  context)
+                                                              .deleteHotelForUser(
+                                                                  data.id!,
+                                                                  user!.id!);
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.delete_forever,
+                                                        color: Colors.red,
+                                                        size: 25,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
+                                      );
+                                    },
+                                  );
+                                } else if (state is EmptyHotelState) {
+                                  return Center(
+                                      child: Text(
+                                    state.message,
+                                    style: Styles.headlineStyle2,
+                                  ));
+                                } else if (state is ErrorHotelState) {
+                                  return Text(
+                                      'Some Thing Went Wrong : ${state.errorMessage}');
+                                } else {
+                                  return Container();
+                                }
                               },
-                            );
-                          } else if (state is EmptyHotelState) {
-                            return Center(
-                                child: Text(
-                              state.message,
-                              style: Styles.headlineStyle2,
-                            ));
-                          } else if (state is ErrorHotelState) {
-                            return Text(
-                                'Some Thing Went Wrong : ${state.errorMessage}');
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                )
-              : Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 5, top: 5),
-                    child: BlocProvider(
-                      create: (context) =>
-                          FlightCubit()..getFlightsForUser(widget.user!.id),
-                      child: BlocBuilder<FlightCubit, FlightState>(
-                        builder: (context, state) {
-                          if (state is LoadingFlightState) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (state is LoadedFlightState) {
-                            return ListView.builder(
-                              itemCount: state.flight.length,
-                              itemBuilder: (context, index) {
-                                var data = state.flight[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    padding: const EdgeInsets.only(bottom: 5),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5,
-                                        )
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SeacrhFlightCard(
-                                          sourceCode:
-                                              data.sourceCode.toString(),
-                                          destinationCode:
-                                              data.destinationCode.toString(),
-                                          sourceName:
-                                              data.sourceName.toString(),
-                                          destinationName:
-                                              data.destinationName.toString(),
-                                          flightDate:
-                                              data.flightDate.toString(),
-                                          flightTime:
-                                              data.flightTime.toString(),
-                                          hoursOfFlightDuration:
-                                              data.hoursOfFlightDuration!,
-                                          minutesOfFlightDuration:
-                                              data.minutesOfFlightDuration!,
-                                          airline_logo: data.airlineLogo!,
-                                          price: data.price!,
-                                          travelClass: data.travelClass!,
-                                        ),
-                                        const Gap(10),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                            ),
+                          )
+                        : BlocProvider(
+                            create: (context) =>
+                                FlightCubit()..getFlightsForUser(user!.id),
+                            child: BlocBuilder<FlightCubit, FlightState>(
+                              builder: (context, state) {
+                                if (state is LoadingFlightState) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (state is LoadedFlightState) {
+                                  return ListView.builder(
+                                    itemCount: state.flight.length,
+                                    itemBuilder: (context, index) {
+                                      var data = state.flight[index];
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                blurRadius: 5,
+                                              )
+                                            ],
+                                          ),
+                                          child: Column(
                                             children: [
-                                              Text(
-                                                '\$ ${data.toatalFlightPrice} / ${data.numOfTickets!} Flight Ticktets',
-                                                style: Styles.headlineStyle3
-                                                    .copyWith(
-                                                  color: color,
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                              SeacrhFlightCard(
+                                                sourceCode:
+                                                    data.sourceCode.toString(),
+                                                destinationCode: data
+                                                    .destinationCode
+                                                    .toString(),
+                                                sourceName:
+                                                    data.sourceName.toString(),
+                                                destinationName: data
+                                                    .destinationName
+                                                    .toString(),
+                                                flightDate:
+                                                    data.flightDate.toString(),
+                                                flightTime:
+                                                    data.flightTime.toString(),
+                                                hoursOfFlightDuration:
+                                                    data.hoursOfFlightDuration!,
+                                                minutesOfFlightDuration: data
+                                                    .minutesOfFlightDuration!,
+                                                airline_logo: data.airlineLogo!,
+                                                price: data.price!,
+                                                travelClass: data.travelClass!,
                                               ),
-                                              InkWell(
-                                                onTap: () {
-                                                  _showDialog(context, () {
-                                                    BlocProvider.of<
-                                                                FlightCubit>(
-                                                            context)
-                                                        .deleteFlightForUser(
-                                                            data.id!,
-                                                            widget.user!.id!);
-                                                    Navigator.pop(context);
-                                                  });
-                                                },
-                                                child: const Icon(
-                                                    Icons.delete_forever,
-                                                    color: Colors.red),
+                                              const Gap(10),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      '\$ ${data.toatalFlightPrice} / ${data.numOfTickets!} Flight Ticktets',
+                                                      style: Styles
+                                                          .headlineStyle3
+                                                          .copyWith(
+                                                        color: Colors.black,
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        _showDialog(context,
+                                                            () {
+                                                          BlocProvider.of<
+                                                                      FlightCubit>(
+                                                                  context)
+                                                              .deleteFlightForUser(
+                                                                  data.id!,
+                                                                  user!.id!);
+                                                          Navigator.pop(
+                                                              context);
+                                                        });
+                                                      },
+                                                      child: const Icon(
+                                                          Icons.delete_forever,
+                                                          color: Colors.red),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ],
+                                      );
+                                    },
+                                  );
+                                } else if (state is EmptyFlightState) {
+                                  return Center(
+                                    child: Text(
+                                      state.message,
+                                      style: Styles.headlineStyle2,
                                     ),
-                                  ),
-                                );
+                                  );
+                                } else if (state is ErrorFlightState) {
+                                  return Text(
+                                      'Some Thing Went Wrong : ${state.errorMessage}');
+                                } else {
+                                  return Container();
+                                }
                               },
-                            );
-                          } else if (state is EmptyFlightState) {
-                            return Center(
-                              child: Text(
-                                state.message,
-                                style: Styles.headlineStyle2,
-                              ),
-                            );
-                          } else if (state is ErrorFlightState) {
-                            return Text(
-                                'Some Thing Went Wrong : ${state.errorMessage}');
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ),
+                            ),
+                          ),
                   ),
                 ),
-        ],
+              ],
+            );
+          } else {
+            return Container();
+          }
+        }),
       ),
     );
   }

@@ -1,8 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:projectf/Cubits/theme-Cubit/theme_cubit.dart';
+import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
 import 'package:projectf/Screens/loginscreen.dart';
 import 'package:projectf/Screens/mainscreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
@@ -19,8 +18,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ThemeCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
+        BlocProvider<UserCubit>(create: (context) => UserCubit()),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
         builder: (context, state) {
           return MaterialApp(
@@ -34,9 +36,9 @@ class MyApp extends StatelessWidget {
             initialRoute: LoginScreen.id,
             routes: {
               SplashScreen.id: (context) => SplashScreen(),
-              LoginScreen.id: (context) => const LoginScreen(),
+              LoginScreen.id: (context) => LoginScreen(),
               MainScreen.id: (context) => MainScreen(),
-              RegisterScreen.id: (context) => const RegisterScreen(),
+              RegisterScreen.id: (context) => RegisterScreen(),
               ProfileScreen.id: (context) => const ProfileScreen(),
             },
           );

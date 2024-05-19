@@ -1,22 +1,22 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:projectf/DataBase/databasehelper.dart';
-import 'package:projectf/DataBase/flight_ticket.dart';
-import 'package:projectf/DataBase/hotel_ticket.dart';
-import 'package:projectf/DataBase/user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
+import 'package:projectf/Cubits/flight-Cubit/flight_cubit.dart';
+import 'package:projectf/Cubits/flight-Cubit/flight_state.dart';
+import 'package:projectf/Cubits/hotels-Cubit/hotel_cubit.dart';
+import 'package:projectf/Cubits/hotels-Cubit/hotel_state.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
 
 class DetailsScreen extends StatefulWidget {
-  Users? users;
   final Map<String, dynamic> itemDetails;
   final bool ishotel;
 
-  DetailsScreen({
+  const DetailsScreen({
     Key? key,
-    this.users,
     required this.itemDetails,
     required this.ishotel,
   }) : super(key: key);
@@ -26,7 +26,6 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  DataBaseHandler dataBaseHandler = DataBaseHandler();
   int numberOfTickets = 1;
   late int totalPrice;
 
@@ -177,90 +176,84 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ],
               ),
             ),
-      bottomNavigationBar: widget.ishotel
-          ? Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 50),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(double.infinity, 60),
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    )),
-                onPressed: () async {
-                  String place = widget.itemDetails['name'].toString();
-                  String des = widget.itemDetails['place'].toString();
-
-                  String image = widget.itemDetails['image'].toString();
-                  int idhotel = widget.users!.id!;
-                  String priceHotel = widget.itemDetails['price'].toString();
-                  String totalprice = totalPrice.toString();
-                  Hotel hotel = Hotel(
-                      numOfTickets: numberOfTickets,
-                      idhotel: idhotel,
-                      place: place,
-                      destination: des,
-                      pricehotel: priceHotel,
-                      totalPrice: totalprice,
-                      image: image);
-                  await dataBaseHandler.saveHotel(hotel);
-                  print(
-                      '${widget.users?.id} ${hotel.destination} ${hotel.place} ${hotel.image} ${hotel.numOfTickets} ${hotel.pricehotel}');
-                  showOK(context, color, 'Hotel');
-                  setState(() {});
-                },
-                child: Text('Book Now', style: Styles.headlineStyle1),
-              ),
-            )
-          : Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 50),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(
-                    const Size(double.infinity, 60),
-                  ),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 50),
+        child: widget.ishotel
+            ? BlocProvider(
+                create: (context) => HotelCubit(),
+                child: BlocBuilder<HotelCubit, HotelState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(double.infinity, 60),
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          )),
+                      onPressed: () {
+                        BlocProvider.of<HotelCubit>(context).addHotelForUser(
+                          widget.itemDetails['name'].toString(),
+                          widget.itemDetails['place'].toString(),
+                          widget.itemDetails['image'].toString(),
+                          widget.itemDetails['price'].toString(),
+                          totalPrice.toString(),
+                          numberOfTickets,
+                          BlocProvider.of<UserCubit>(context).loggedInuser!.id!,
+                        );
+                        showOK(context, color, 'Hotel');
+                      },
+                      child: Text('Book Now', style: Styles.headlineStyle1),
+                    );
+                  },
                 ),
-                onPressed: () async {
-                  int num = numberOfTickets;
-                  Flight flight = Flight(
-                    idflight: widget.users?.id,
-                    numOfTickets: num,
-                    sourceName: widget.itemDetails['departureAirportName'],
-                    destinationName: widget.itemDetails['arrivalAirportName'],
-                    sourceCode: widget.itemDetails['departureAirportId'],
-                    destinationCode: widget.itemDetails['arrivalAirportId'],
-                    flightDate:
-                        widget.itemDetails['departureTime'].split(' ')[0],
-                    flightTime:
-                        widget.itemDetails['departureTime'].split(' ')[1],
-                    price: widget.itemDetails['price'],
-                    hoursOfFlightDuration:
-                        widget.itemDetails['hoursOfFlightDuration'],
-                    minutesOfFlightDuration:
-                        widget.itemDetails['minutesOfFlightDuration'],
-                    airlineLogo: widget.itemDetails['airlineLogo'],
-                    travelClass: widget.itemDetails['travelClass'],
-                    toatalFlightPrice: totalPrice.toString(),
-                  );
-                  await dataBaseHandler.saveFlight(flight);
-                  print(flight.numOfTickets.toString());
-                  showOK(context, color, 'Flight');
+              )
+            : BlocProvider(
+                create: (context) => FlightCubit(),
+                child: BlocBuilder<FlightCubit, FlightState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      style: ButtonStyle(
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(double.infinity, 60),
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<FlightCubit>(context).addFlightForUser(
+                          BlocProvider.of<UserCubit>(context).loggedInuser!.id!,
+                          numberOfTickets,
+                          widget.itemDetails['departureAirportName'],
+                          widget.itemDetails['arrivalAirportName'],
+                          widget.itemDetails['departureAirportId'],
+                          widget.itemDetails['arrivalAirportId'],
+                          widget.itemDetails['departureTime'].split(' ')[0],
+                          widget.itemDetails['departureTime'].split(' ')[1],
+                          widget.itemDetails['price'],
+                          widget.itemDetails['hoursOfFlightDuration'],
+                          widget.itemDetails['minutesOfFlightDuration'],
+                          widget.itemDetails['airlineLogo'],
+                          widget.itemDetails['travelClass'],
+                          totalPrice.toString(),
+                        );
+                        print(BlocProvider.of<UserCubit>(context)
+                            .loggedInuser!
+                            .id!);
 
-                  setState(() {});
-                },
-                child: Text('Book Now', style: Styles.headlineStyle1),
+                        showOK(context, color, 'Flight');
+                      },
+                      child: Text('Book Now', style: Styles.headlineStyle1),
+                    );
+                  },
+                ),
               ),
-            ),
+      ),
     );
   }
 

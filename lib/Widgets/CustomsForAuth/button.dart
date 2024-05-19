@@ -12,7 +12,8 @@ class Button extends StatelessWidget {
       required this.onTap,
       required this.text,
       required this.color,
-      required this.textColor, required this.width});
+      required this.textColor,
+      required this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class Button extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width / width,
-        height: 50,
+        height: 60,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,

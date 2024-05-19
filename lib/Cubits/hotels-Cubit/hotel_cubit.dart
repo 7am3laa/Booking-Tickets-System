@@ -36,26 +36,18 @@ class HotelCubit extends Cubit<HotelState> {
     }
   }
 
-  addHotelForUser(
-      int idhotel,
-      int numOfTickets,
-      String place,
-      String destination,
-      String image,
-      String pricehotel,
-      String totalPrice) async {
-    await dataBaseHandler.saveHotel(Hotel(
-      idhotel: idhotel,
-      numOfTickets: numOfTickets,
+  addHotelForUser(String place, String des, String img, String price,
+      String totalprice, int numoftic, int id) async {
+    Hotel hotel = Hotel(
+      idhotel: id ,
+      numOfTickets: numoftic,
       place: place,
-      destination: destination,
-      image: image,
-      pricehotel: pricehotel,
-      totalPrice: totalPrice,
-    ));
+      destination:  des,
+      pricehotel: price,
+      totalPrice: totalprice,
+      image: img,
 
-
-    
+    );
+    await dataBaseHandler.saveHotel(hotel);
   }
-
 }
