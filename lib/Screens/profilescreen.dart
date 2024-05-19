@@ -3,17 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
 import 'package:projectf/Cubits/theme-Cubit/theme_cubit.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/loginscreen.dart';
+import 'package:projectf/Screens/signupscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/edit.dart';
 import 'package:projectf/constant.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final Users? user;
-
-  const ProfileScreen({Key? key, this.user}) : super(key: key);
+  const ProfileScreen({
+    Key? key,
+  }) : super(key: key);
   static const String id = 'profilescreen';
 
   @override
@@ -30,8 +32,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         theme.brightness == Brightness.dark ? Colors.white : Colors.black;
 
     return Scaffold(
-      backgroundColor:
-          theme.brightness == Brightness.dark ? Colors.black : Colors.white,
       appBar: AppBar(
         title: Text(
           'Profile',
@@ -64,12 +64,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const Gap(20),
                       Text(
-                        '${widget.user?.fName} ${widget.user?.lName}',
+                        '${BlocProvider.of<UserCubit>(context).loggedInuser?.fName} ${BlocProvider.of<UserCubit>(context).loggedInuser?.lName}',
                         style: Styles.headlineStyle2
                             .copyWith(fontSize: 25, color: color),
                       ),
                       Text(
-                        '+(2${widget.user?.phoneNumber})',
+                        '+(2${BlocProvider.of<UserCubit>(context).loggedInuser?.phoneNumber})',
                         style: Styles.headlineStyle3.copyWith(color: color),
                       ),
                     ],
@@ -80,7 +80,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     top: 10,
                     child: InkWell(
                       onTap: () {
-                        _EditProfileScreen(context, widget.user!);
+                        _EditProfileScreen(context,
+                            BlocProvider.of<UserCubit>(context).loggedInuser!);
                         setState(() {});
                       },
                       child: Container(
@@ -166,7 +167,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         InkWell(
                             onTap: () {
-                              _changePassword(context, widget.user!);
+                              _changePassword(
+                                  context,
+                                  BlocProvider.of<UserCubit>(context)
+                                      .loggedInuser!);
                               setState(() {});
                             },
                             child: Icon(
@@ -195,8 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()));
+                                      builder: (context) => LoginScreen()));
                             },
                             child: const Icon(
                               Icons.logout_outlined,
@@ -221,13 +224,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         InkWell(
                             onTap: () async {
-                              await dataBaseHandler
-                                  .deleteUser('${widget.user?.name}');
+                              await dataBaseHandler.deleteUser(
+                                  '${BlocProvider.of<UserCubit>(context).loggedInuser!.name}');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()));
+                                      builder: (context) => RegisterScreen()));
                             },
                             child: const Icon(
                               Icons.delete_forever_outlined,

@@ -35,9 +35,7 @@ class _MainScreenState extends State<MainScreen> {
       TicketsScreen(
         user: widget.user,
       ),
-      ProfileScreen(
-        user: widget.user,
-      ),
+      const ProfileScreen(),
     ];
   }
 

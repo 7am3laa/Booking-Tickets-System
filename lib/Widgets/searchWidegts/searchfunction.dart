@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projectf/API/flightModel.dart';
-import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/details_screen.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
 
 class SearchResults extends SearchDelegate<String> {
-  Users? users;
   final bool isHotel;
   List<FlightModel>? ticketList = [];
-  SearchResults({required this.isHotel, this.users, this.ticketList});
+  SearchResults({required this.isHotel, this.ticketList});
 
   List filteredList = [];
   @override
@@ -159,7 +157,6 @@ class SearchResults extends SearchDelegate<String> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsScreen(
-              users: users,
               itemDetails: item,
               ishotel: isHotel,
             ),

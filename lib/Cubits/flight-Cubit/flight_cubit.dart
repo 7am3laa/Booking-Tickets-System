@@ -36,4 +36,42 @@ class FlightCubit extends Cubit<FlightState> {
       emit(ErrorFlightState('$e'));
     }
   }
+
+  addFlightForUser(
+    int id,
+    int numOfTickets,
+    String sourceName,
+    String destinationName,
+    String sourceCode,
+    String destinationCode,
+    String flightDate,
+    String flightTime,
+     int price,
+    int hoursOfFlightDuration,
+    int minutesOfFlightDuration,
+    
+    String airlineLogo,
+   
+    String travelClass,
+    String toatalFlightPrice,
+  ) async {
+    Flight flight = Flight(
+      idflight: id,
+      sourceName: sourceName,
+      destinationName: destinationName,
+      sourceCode: sourceCode,
+      destinationCode: destinationCode,
+      flightDate: flightDate,
+      flightTime: flightTime,
+      hoursOfFlightDuration: hoursOfFlightDuration,
+      minutesOfFlightDuration: minutesOfFlightDuration,
+      airlineLogo: airlineLogo,
+      price: price,
+      travelClass: travelClass,
+      toatalFlightPrice: toatalFlightPrice,
+      numOfTickets: numOfTickets,
+    );
+
+    await dataBaseHandler.saveFlight(flight);
+  }
 }

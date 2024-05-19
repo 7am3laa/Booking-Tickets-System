@@ -1,6 +1,6 @@
 import 'package:projectf/DataBase/flight_ticket.dart';
 
-class FlightState {}
+abstract class FlightState {}
 
 class LoadingFlightState extends FlightState {}
 
