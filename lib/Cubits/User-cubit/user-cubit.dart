@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:projectf/Cubits/User-cubit/user-state.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
@@ -10,17 +8,29 @@ class UserCubit extends Cubit<UserState> {
   DataBaseHandler dataBaseHandler = DataBaseHandler();
   bool isPasswordVisible = true;
   Users? loggedInuser;
-  getUser(username, password) async {
+  bool isValid = false;
+
+   getUser(String username, String password) async {
+    if (username.isEmpty || password.isEmpty) {
+      emit(ErrorUserState('Please enter username and password'));
+      return;
+    }
+
     try {
-      emit(LoadingUserState());
-      List<Users> userList = await dataBaseHandler.getUsers(username);
+      List<Users> userList = await dataBaseHandler.getUsers();
       if (userList.isNotEmpty) {
         for (Users user in userList) {
           if (username == user.name && password == user.password) {
             loggedInuser = user;
+            isValid = true;
             emit(LoadedUserState(user));
+            return;
+          } else if (username == user.name && password != user.password) {
+            emit(ErrorUserState('Invalid password'));
+            return;
           }
         }
+        emit(ErrorUserState('Invalid username'));
       } else {
         emit(EmptyUserState());
       }
@@ -29,7 +39,12 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  deleteUser(username) async {
+  void showPassword() {
+    isPasswordVisible = !isPasswordVisible;
+    emit(PasswordVisibilityState(isPasswordVisible));
+  }
+
+   deleteUser(String username) async {
     try {
       await dataBaseHandler.deleteUser(username);
     } catch (e) {
@@ -37,7 +52,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  adduser(String fName, String lName, String userName, String phone,
+   addUser(String fName, String lName, String userName, String phone,
       String passWord) async {
     Users user = Users(
       fName: fName,
@@ -51,7 +66,7 @@ class UserCubit extends Cubit<UserState> {
 
   updateUser(String fName, String lName, String userName, String phone,
       String passWord) async {
-    Users users = Users(
+    Users user = Users(
       fName: fName,
       lName: lName,
       name: userName,
@@ -59,12 +74,7 @@ class UserCubit extends Cubit<UserState> {
       password: passWord,
     );
 
-    dataBaseHandler.updateUser(users);
-    emit(LoadedUserState(users));
-  }
-
-  showPassword() {
-    isPasswordVisible = !isPasswordVisible;
-    emit(PasswordVisibilityState(isPasswordVisible));
+    dataBaseHandler.updateUser(user);
+    emit(LoadedUserState(user));
   }
 }

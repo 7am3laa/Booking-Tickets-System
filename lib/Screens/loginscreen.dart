@@ -30,7 +30,27 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Form(
         key: _formKey,
-        child: BlocBuilder<UserCubit, UserState>(
+        child: BlocConsumer<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is ErrorUserState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage,
+                    style: Styles.headlineStyle3.copyWith(color: Colors.white),
+                  ),
+                  duration: const Duration(milliseconds: 500),
+                ),
+              );
+            } else if (state is LoadedUserState) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SplashScreen(),
+                ),
+              );
+            }
+          },
           builder: (context, state) {
             return Center(
               child: Container(
@@ -133,20 +153,11 @@ class LoginScreen extends StatelessWidget {
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              await BlocProvider.of<UserCubit>(context)
+                              await context
+                                  .read<UserCubit>()
                                   .getUser(_userName, _passWord);
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SplashScreen(
-                                      user: context
-                                          .read<UserCubit>()
-                                          .loggedInuser!),
-                                ),
-                              );
-                              print(
-                                  '${context.read<UserCubit>().loggedInuser!.id}');
+                              _userName = '';
+                              _passWord = '';
                             }
                           },
                           text: 'Login',

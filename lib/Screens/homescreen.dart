@@ -12,7 +12,7 @@ import 'package:projectf/constant.dart';
 class HomeScreen extends StatelessWidget {
   List<FlightModel>? ticketList = [];
   HomeScreen({this.ticketList, super.key});
-  List<Map<String, dynamic>> hotelList = DataSet().hotelList;
+  List<Map<String, dynamic>> hotelList = hotelList1 ;
 
   @override
   Widget build(BuildContext context) {
