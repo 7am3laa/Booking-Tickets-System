@@ -5,21 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/manage_Ticket_screen_State.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/ticketscreen_cubit.dart';
+import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
 import 'package:projectf/Cubits/flight-Cubit/flight_cubit.dart';
 import 'package:projectf/Cubits/flight-Cubit/flight_state.dart';
 import 'package:projectf/Cubits/hotels-Cubit/hotel_cubit.dart';
 import 'package:projectf/Cubits/hotels-Cubit/hotel_state.dart';
-import 'package:projectf/DataBase/user.dart';
+
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
 import 'package:projectf/Widgets/searchWidegts/search_flight_card.dart';
 import 'package:projectf/Widgets/searchWidegts/search_hotel_card.dart';
 import 'package:projectf/constant.dart';
 
 class TicketsScreen extends StatelessWidget {
-  final Users? user;
-
   const TicketsScreen({
-    this.user,
     Key? key,
   }) : super(key: key);
 
@@ -123,8 +121,9 @@ class TicketsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 5, top: 5),
                     child: isHotel
                         ? BlocProvider(
-                            create: (context) =>
-                                HotelCubit()..getHotelsForUser(user!.id),
+                            create: (context) => HotelCubit()
+                              ..getHotelsForUser(
+                                  context.read<UserCubit>().loggedInuser!.id),
                             child: BlocBuilder<HotelCubit, HotelState>(
                               builder: (context, state) {
                                 if (state is LoadingHotelState) {
@@ -189,7 +188,11 @@ class TicketsScreen extends StatelessWidget {
                                                                   context)
                                                               .deleteHotelForUser(
                                                                   data.id!,
-                                                                  user!.id!);
+                                                                  context
+                                                                      .read<
+                                                                          UserCubit>()
+                                                                      .loggedInuser!
+                                                                      .id!);
                                                           Navigator.pop(
                                                               context);
                                                         });
@@ -225,8 +228,9 @@ class TicketsScreen extends StatelessWidget {
                             ),
                           )
                         : BlocProvider(
-                            create: (context) =>
-                                FlightCubit()..getFlightsForUser(user!.id),
+                            create: (context) => FlightCubit()
+                              ..getFlightsForUser(
+                                  context.read<UserCubit>().loggedInuser!.id),
                             child: BlocBuilder<FlightCubit, FlightState>(
                               builder: (context, state) {
                                 if (state is LoadingFlightState) {
@@ -306,7 +310,11 @@ class TicketsScreen extends StatelessWidget {
                                                                   context)
                                                               .deleteFlightForUser(
                                                                   data.id!,
-                                                                  user!.id!);
+                                                                  context
+                                                                      .read<
+                                                                          UserCubit>()
+                                                                      .loggedInuser!
+                                                                      .id!);
                                                           Navigator.pop(
                                                               context);
                                                         });

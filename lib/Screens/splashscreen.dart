@@ -5,14 +5,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:projectf/API/fetchFlights.dart';
 import 'package:projectf/API/flightModel.dart';
-import 'package:projectf/DataBase/user.dart';
+
 import 'package:projectf/Screens/mainscreen.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id = 'splashscreen';
   List<FlightModel>? ticketList = [];
-  final Users? user;
-  SplashScreen({this.user, super.key});
+
+  SplashScreen({super.key});
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -45,8 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  MainScreen(user: widget.user!, ticketList: widget.ticketList),
+              builder: (context) => MainScreen(ticketList: widget.ticketList),
             ),
           );
         } else {

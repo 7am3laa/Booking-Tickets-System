@@ -5,7 +5,7 @@ import 'package:projectf/constant.dart';
 // ignore: must_be_immutable
 class HotelScreen extends StatelessWidget {
   HotelScreen({super.key});
-  List<Map<String, dynamic>> hotelList = DataSet().hotelList;
+  List<Map<String, dynamic>> hotelList = hotelList1;
 
   @override
   Widget build(BuildContext context) {

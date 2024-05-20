@@ -16,6 +16,6 @@ class EmptyHotelState extends HotelState {
 }
 
 class ErrorHotelState extends HotelState {
-   final String errorMessage;
+  final String errorMessage;
   ErrorHotelState(this.errorMessage);
 }

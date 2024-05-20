@@ -6,20 +6,15 @@ import 'package:gap/gap.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/manage_Ticket_screen_State.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/ticketscreen_cubit.dart';
-import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
-import 'package:projectf/Widgets/searchWidegts/searchfunction.dart';
+import 'package:projectf/Widgets/search/flight.dart';
+import 'package:projectf/Widgets/search/hotelsearch.dart';
 import 'package:projectf/constant.dart';
 
 class SearchScreen extends StatelessWidget {
-  Users? users;
+
   List<FlightModel>? ticketList = [];
-  SearchScreen({Key? key, this.users, this.ticketList}) : super(key: key);
-
-  bool isHotel = false;
-
-  bool isSelected = true;
-
+  SearchScreen({Key? key,  this.ticketList}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -210,10 +205,19 @@ class SearchScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 35),
                 child: Button(
                   onTap: () {
-                    showSearch(
-                        context: context,
-                        delegate: SearchResults(
-                            isHotel: isHotel, ticketList: ticketList));
+                    isHotel
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchHotelPage(),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>  SearchFlightPage(ticketList: ticketList,),
+                            ),
+                          );
                   },
                   text: 'Find Tickets',
                   color: Colors.blue,

@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
@@ -13,7 +11,7 @@ import 'package:projectf/Widgets/CustomsForAuth/customtxtfield.dart';
 import 'package:projectf/constant.dart';
 
 class RegisterScreen extends StatelessWidget {
-   RegisterScreen({Key? key}) : super(key: key);
+  RegisterScreen({Key? key}) : super(key: key);
   static const String id = 'registerscreen';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -188,7 +186,7 @@ class RegisterScreen extends StatelessWidget {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
 
-                                    BlocProvider.of<UserCubit>(context).adduser(
+                                    BlocProvider.of<UserCubit>(context).addUser(
                                         _fName,
                                         _lName,
                                         _userName,
@@ -198,8 +196,7 @@ class RegisterScreen extends StatelessWidget {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                             LoginScreen(),
+                                        builder: (context) => LoginScreen(),
                                       ),
                                     );
                                   }
