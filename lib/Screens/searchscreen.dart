@@ -7,8 +7,9 @@ import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/manage_Ticket_screen_State.dart';
 import 'package:projectf/Cubits/Manage-ticketScreen-Cubit/ticketscreen_cubit.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
-import 'package:projectf/Widgets/search/flight.dart';
-import 'package:projectf/Widgets/search/hotelsearch.dart';
+import 'package:projectf/Widgets/searchWidegts/search/flight.dart';
+import 'package:projectf/Widgets/searchWidegts/search/hotelsearch.dart';
+
 import 'package:projectf/constant.dart';
 
 class SearchScreen extends StatelessWidget {

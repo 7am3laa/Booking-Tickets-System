@@ -11,6 +11,7 @@ class EditInfo extends StatelessWidget {
   final Function(String) onChanged;
   final bool isobscureText;
   final bool enabled;
+    final TextInputType keyboardType;
 
   EditInfo({
     super.key,
@@ -18,7 +19,7 @@ class EditInfo extends StatelessWidget {
     required this.text,
     required this.onChanged,
     required this.isobscureText,
-    required this.enabled,
+    required this.enabled, required this.keyboardType,
   });
 
   final Users users = Users();
@@ -43,6 +44,7 @@ class EditInfo extends StatelessWidget {
         ),
         const Gap(5),
         TextField(
+          keyboardType: keyboardType,
           enabled: enabled,
           style: const TextStyle(fontSize: 20),
           controller: controller,
