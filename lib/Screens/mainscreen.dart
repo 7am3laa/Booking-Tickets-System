@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     _bodyScreens = [
       HomeScreen(ticketList: widget.ticketList),
       SearchScreen(ticketList: widget.ticketList!),
-      TicketsScreen(),
+      const TicketsScreen(),
       const ProfileScreen(),
     ];
   }

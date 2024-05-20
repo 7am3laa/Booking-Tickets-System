@@ -362,6 +362,9 @@ class TicketsScreen extends StatelessWidget {
 }
 
 void _showDialog(BuildContext context, Function() onTap) {
+  ThemeData theme = Theme.of(context);
+  Color color =
+      theme.brightness == Brightness.dark ? Colors.white : Colors.black;
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -372,7 +375,7 @@ void _showDialog(BuildContext context, Function() onTap) {
         ),
         content: Text(
           'Are you sure you want to delete this Ticket?',
-          style: Styles.headlineStyle2,
+          style: Styles.headlineStyle2.copyWith(color: color),
         ),
         actions: [
           Button(

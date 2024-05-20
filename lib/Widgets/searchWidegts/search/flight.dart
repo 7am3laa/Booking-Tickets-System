@@ -56,30 +56,52 @@ class SearchPageContent extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              prefixIcon: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(
-                  Icons.arrow_back,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.grey.shade300,
+              border: Border.all(color: Colors.grey.shade300),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: TextField(
+              style: Styles.headlineStyle1.copyWith(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
+                prefixIcon: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                ),
+                suffixIcon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ),
+                hintText: 'Search',
+                hintStyle: Styles.headlineStyle1.copyWith(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+                fillColor: Colors.white,
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
-              suffixIcon: const Icon(
-                Icons.search,
-              ),
-              hintText: 'Search',
-              hintStyle: Styles.headlineStyle1.copyWith(fontSize: 20),
-              fillColor: Colors.white,
-              filled: true,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+              onChanged: (value) {
+                context.read<FlightSearchCubit>().search(value);
+              },
             ),
-            onChanged: (value) {
-              context.read<FlightSearchCubit>().search(value);
-            },
           ),
         ),
         Expanded(

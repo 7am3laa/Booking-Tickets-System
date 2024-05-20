@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:projectf/Cubits/User-cubit/user-state.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
@@ -10,7 +12,7 @@ class UserCubit extends Cubit<UserState> {
   Users? loggedInuser;
   bool isValid = false;
 
-   getUser(String username, String password) async {
+  getUser(String username, String password) async {
     if (username.isEmpty || password.isEmpty) {
       emit(ErrorUserState('Please enter username and password'));
       return;
@@ -44,7 +46,7 @@ class UserCubit extends Cubit<UserState> {
     emit(PasswordVisibilityState(isPasswordVisible));
   }
 
-   deleteUser(String username) async {
+  deleteUser(String username) async {
     try {
       await dataBaseHandler.deleteUser(username);
     } catch (e) {
@@ -52,7 +54,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-   addUser(String fName, String lName, String userName, String phone,
+  addUser(String fName, String lName, String userName, String phone,
       String passWord) async {
     Users user = Users(
       fName: fName,
@@ -64,17 +66,8 @@ class UserCubit extends Cubit<UserState> {
     await dataBaseHandler.save(user);
   }
 
-  updateUser(String fName, String lName, String userName, String phone,
-      String passWord) async {
-    Users user = Users(
-      fName: fName,
-      lName: lName,
-      name: userName,
-      phoneNumber: phone,
-      password: passWord,
-    );
-
-    dataBaseHandler.updateUser(user);
+  updateUser(Users user) async {
+    await dataBaseHandler.updateUser(user);
     emit(LoadedUserState(user));
   }
 }
