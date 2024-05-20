@@ -1,62 +1,65 @@
 // ignore_for_file: non_constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:projectf/constant.dart';
 
-class CustomTxtField extends StatefulWidget {
+class CustomTxtField extends StatelessWidget {
   final String labelText;
-  final TextEditingController Controller;
+  final String validatorMessage;
+  final FormFieldSetter<String> onSaved;
+  final TextInputType keyboardType;
   Widget? suffixIcon;
   Widget? prefixIcon;
   bool isobscureText;
   CustomTxtField({
     Key? key,
     required this.labelText,
-    required this.Controller,
+    required this.onSaved,
     required this.isobscureText,
-    @required this.suffixIcon,
-    @required this.prefixIcon,
+    this.suffixIcon,
+    this.prefixIcon,
+    required this.validatorMessage,
+    required this.keyboardType,
   }) : super(key: key);
 
   @override
-  State<CustomTxtField> createState() => _CustomTxtFieldState();
-}
-
-class _CustomTxtFieldState extends State<CustomTxtField> {
-  @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    Color color = theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return SizedBox(
-      width: AppLayout.getWidth(context) / 1.5,
-      child: TextField(
-        cursorColor: Colors.black,
+      width: MediaQuery.of(context).size.width,
+      child: TextFormField(
+        keyboardType: keyboardType,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return validatorMessage;
+          }
+          return null;
+        },
         cursorWidth: 3,
-        obscuringCharacter: '*',
-        controller: widget.Controller,
-        obscureText: widget.isobscureText,
+        onSaved: onSaved,
+        obscureText: isobscureText,
         style: const TextStyle(
             color: Color.fromARGB(221, 13, 9, 23),
             fontSize: 20,
             fontFamily: 'pa',
             fontWeight: FontWeight.bold),
         decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: color),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: .5),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: color, width: .5),
           ),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: .5),
+          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: color, width: .5),
           ),
-          prefixIcon: widget.prefixIcon,
-          suffixIcon: widget.suffixIcon,
-          hintText: widget.labelText,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          hintText: labelText,
           hintStyle: TextStyle(
             fontSize: 20,
-            color: Colors.white.withOpacity(.5),
-            fontFamily: 'pa',
+            color: color.withOpacity(.5),
           ),
         ),
       ),

@@ -208,6 +208,7 @@ class DataBaseHandler {
     Users users = Users();
     List<Map> maps = await dbClient!.query(
       TABLE_USERS,
+     
       columns: [
         ID,
         NAME,
@@ -257,8 +258,8 @@ class DataBaseHandler {
         'lName': user.lName,
         'phoneNumber': user.phoneNumber,
       },
-      where: '$NAME = ?',
-      whereArgs: [user.name],
+      where: '$ID = ?',
+      whereArgs: [user.id],
     );
     return numOfRecords;
   }

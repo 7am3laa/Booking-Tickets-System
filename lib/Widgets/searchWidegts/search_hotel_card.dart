@@ -17,13 +17,10 @@ class SearchHotelCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
         color: Colors.white,
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Colors.grey,
-            blurRadius: 5,
-          )
+              color: Colors.grey.shade400, blurRadius: 5, offset: Offset.zero),
         ],
       ),
       child: Column(
@@ -31,9 +28,8 @@ class SearchHotelCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 180,
+            height: 250,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
               image:
                   DecorationImage(image: AssetImage(image), fit: BoxFit.fill),
             ),

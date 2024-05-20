@@ -31,13 +31,9 @@ class _MainScreenState extends State<MainScreen> {
   void _updateBodyScreens() {
     _bodyScreens = [
       HomeScreen(ticketList: widget.ticketList),
-      SearchScreen(users: widget.user, ticketList: widget.ticketList!),
-      TicketsScreen(
-        user: widget.user,
-      ),
-      ProfileScreen(
-        user: widget.user,
-      ),
+      SearchScreen(ticketList: widget.ticketList!),
+      const TicketsScreen(),
+      const ProfileScreen(),
     ];
   }
 

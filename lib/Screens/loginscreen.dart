@@ -1,133 +1,92 @@
-// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+// ignore_for_file: must_be_immutable, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
+import 'package:projectf/Cubits/User-cubit/user-state.dart';
 import 'package:projectf/DataBase/databasehelper.dart';
-import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/signupscreen.dart';
 import 'package:projectf/Screens/splashscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
 import 'package:projectf/Widgets/CustomsForAuth/customtxtfield.dart';
 import 'package:projectf/constant.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  LoginScreen({Key? key}) : super(key: key);
   static const String id = 'loginscreen';
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   DataBaseHandler dataBaseHandler = DataBaseHandler();
-  bool isPassword = true;
-  late int index;
 
-  Future<void> _login() async {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-
-    List<Users> usersList = await dataBaseHandler.getUsers();
-
-    bool isValidUser = false;
-    Users? loggedInUser;
-
-    for (Users user in usersList) {
-      if (username == user.name && password == user.password) {
-        isValidUser = true;
-        loggedInUser = user;
-        break;
-      } else if (username == user.name && password != user.password) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Invalid password',
-              style: Styles.headlineStyle2.copyWith(color: Colors.white),
-            ),
-            duration: const Duration(milliseconds: 500),
-          ),
-        );
-        return;
-      } else if (username == "" && password == "") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Please enter username and password'),
-            duration: Duration(milliseconds: 500),
-          ),
-        );
-        return;
-      }
-    }
-    if (isValidUser) {
-      _usernameController.clear();
-      _passwordController.clear();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SplashScreen(user: loggedInUser!),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Invalid username'),
-          duration: Duration(milliseconds: 500),
-        ),
-      );
-    }
-  }
+  String _userName = '';
+  String _passWord = '';
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.white.withOpacity(.7);
+    ThemeData theme = Theme.of(context);
+    Color color =
+        theme.brightness == Brightness.dark ? Colors.white : Colors.black;
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 33, 90, 160),
-              Color.fromARGB(255, 62, 92, 101)
-            ],
-          ),
-        ),
-        child: Center(
-          child: Container(
-            height: AppLayout.getHeight(context) / 2,
-            padding: EdgeInsets.symmetric(
-                horizontal: (AppLayout.getWidth(context) / 2) / 3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Login',
-                        style: Styles.headlineStyle1
-                            .copyWith(fontSize: 35, color: Colors.white)),
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              fit: BoxFit.fitHeight,
-                              image: AssetImage('assets/images/logo.png'))),
-                    ),
-                  ],
+      body: Form(
+        key: _formKey,
+        child: BlocConsumer<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is ErrorUserState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage,
+                    style: Styles.headlineStyle3.copyWith(color: Colors.white),
+                  ),
+                  duration: const Duration(milliseconds: 500),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              );
+            } else if (state is LoadedUserState) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SplashScreen(),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return Center(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                width: AppLayout.getWidth(context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Login',
+                            style: Styles.headlineStyle1
+                                .copyWith(fontSize: 35, color: color)),
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: AssetImage('assets/images/logo.png'))),
+                        ),
+                      ],
+                    ),
                     Column(
                       children: [
                         const Gap(20),
                         CustomTxtField(
+                          keyboardType: TextInputType.emailAddress,
+                          validatorMessage: 'Please enter username',
                           isobscureText: false,
-                          Controller: _usernameController,
-                          labelText: 'Username',
+                          onSaved: (newValue) {
+                            _userName = newValue!;
+                          },
+                          labelText: 'Email or Username',
                           suffixIcon: null,
                           prefixIcon: Icon(
                             Icons.mail,
@@ -136,57 +95,70 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const Gap(10),
                         CustomTxtField(
-                            prefixIcon: Icon(
-                              Icons.lock,
+                          onSaved: (newValue) {
+                            _passWord = newValue!;
+                          },
+                          keyboardType: TextInputType.visiblePassword,
+                          validatorMessage: 'Please enter password',
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: color,
+                          ),
+                          suffixIcon: InkWell(
+                            onTap: () {
+                              context.read<UserCubit>().showPassword();
+                            },
+                            child: Icon(
+                              context.read<UserCubit>().isPasswordVisible
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.remove_red_eye_outlined,
                               color: color,
                             ),
-                            suffixIcon: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isPassword = !isPassword;
-                                });
-                              },
-                              child: Icon(
-                                isPassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.remove_red_eye_outlined,
-                                color: color,
-                              ),
-                            ),
-                            isobscureText: isPassword,
-                            Controller: _passwordController,
-                            labelText: 'Password'),
+                          ),
+                          isobscureText:
+                              context.read<UserCubit>().isPasswordVisible,
+                          labelText: 'Password',
+                        ),
                         const Gap(20),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Don\'t have an account?',
                                 style: Styles.headlineStyle3
-                                    .copyWith(color: Colors.white)),
+                                    .copyWith(color: color)),
                             InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RegisterScreen(),
+                                    builder: (context) => RegisterScreen(),
                                   ),
                                 );
                               },
                               child: Text(' Register',
                                   style: Styles.headlineStyle3.copyWith(
                                     fontWeight: FontWeight.bold,
-                                    color:
-                                        const Color.fromARGB(255, 17, 22, 26),
+                                    color: Colors.blue,
                                   )),
                             ),
                           ],
                         ),
                         const Gap(20),
                         Button(
-                          color: const Color.fromARGB(255, 31, 56, 75),
-                          onTap: () {
-                            _login();
+                          width: 1.5,
+                          textColor: theme.brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.white,
+                          color: color,
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              await context
+                                  .read<UserCubit>()
+                                  .getUser(_userName, _passWord);
+                              _userName = '';
+                              _passWord = '';
+                            }
                           },
                           text: 'Login',
                         ),
@@ -194,9 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
