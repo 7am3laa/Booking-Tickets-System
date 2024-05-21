@@ -13,6 +13,7 @@ class SearchHotelPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Styles.bgColor,
         body: BlocProvider(
           create: (context) => HotelSearchCubit(hotelList1),
           child: const SearchPageContent(),
@@ -30,7 +31,8 @@ class SearchPageContent extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:
+              const EdgeInsets.only(top: 8.0, right: 8, left: 8, bottom: 4),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
@@ -70,7 +72,7 @@ class SearchPageContent extends StatelessWidget {
                 fillColor: Colors.white,
                 filled: true,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
               onChanged: (value) {
