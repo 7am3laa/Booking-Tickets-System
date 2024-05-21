@@ -22,8 +22,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color txtColor = const Color.fromARGB(238, 9, 7, 98);
+    Color bgColor = Colors.white;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: bgColor,
         body: Stack(
           children: [
             Positioned(
@@ -32,7 +34,7 @@ class LoginScreen extends StatelessWidget {
               child: Transform.rotate(
                 angle: 2,
                 child: Container(
-                  width: AppLayout.getWidth(context),
+                  width: 350,
                   height: AppLayout.getHeight(context),
                   color: const Color.fromARGB(238, 9, 7, 98),
                 ),
@@ -44,7 +46,7 @@ class LoginScreen extends StatelessWidget {
               child: Transform.rotate(
                 angle: 2,
                 child: Container(
-                  width: AppLayout.getWidth(context),
+                  width: 350,
                   height: AppLayout.getHeight(context),
                   color: const Color.fromARGB(238, 9, 7, 98),
                 ),

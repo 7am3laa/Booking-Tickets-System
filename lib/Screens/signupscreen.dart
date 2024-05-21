@@ -28,29 +28,31 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color txtColor = const Color.fromARGB(238, 9, 7, 98);
+    Color bgColor = Colors.white;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: bgColor,
         body: Stack(
           children: [
             Positioned(
-              top: -650,
-              right: -20,
+              top: -600,
+              right: -30,
               child: Transform.rotate(
                 angle: 2,
                 child: Container(
-                  width: AppLayout.getWidth(context),
+                  width: 350,
                   height: AppLayout.getHeight(context),
                   color: const Color.fromARGB(238, 9, 7, 98),
                 ),
               ),
             ),
             Positioned(
-              bottom: -650,
-              left: -20,
+              bottom: -620,
+              left: -30,
               child: Transform.rotate(
                 angle: 2,
                 child: Container(
-                  width: AppLayout.getWidth(context),
+                  width: 350,
                   height: AppLayout.getHeight(context),
                   color: const Color.fromARGB(238, 9, 7, 98),
                 ),

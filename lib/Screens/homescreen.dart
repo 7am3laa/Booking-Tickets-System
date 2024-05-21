@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(
-                            15.0), // Adjust the border radius as needed
+                            15.0), 
                         child: Image.asset(
                           'assets/images/logo.png',
                           width: 70,
@@ -135,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      FlightScreen(ticketList: ticketList),
+                                      FlightScreen(  isLoad : isloaded,ticketList: ticketList),
                                 ),
                               );
                             },
