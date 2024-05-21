@@ -23,8 +23,7 @@ class CustomTxtField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    Color color = theme.brightness == Brightness.dark ? Colors.white : Colors.black;
+    Color color = const Color.fromARGB(238, 9, 7, 98);
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextFormField(
@@ -50,7 +49,8 @@ class CustomTxtField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: color, width: .5),
           ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: color, width: .5),
           ),

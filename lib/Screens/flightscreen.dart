@@ -39,9 +39,9 @@ class FlightScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView.builder(
-        itemCount: listFlight!.length,
+        itemCount: listFlight.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = listFlight![index];
+          final item = listFlight[index];
           return GestureDetector(
             onTap: () {
               Navigator.push(
