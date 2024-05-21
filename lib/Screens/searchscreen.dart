@@ -156,7 +156,7 @@ class SearchScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Gap(25),
+                                  const Gap(25),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 20.0),
@@ -210,7 +210,7 @@ class SearchScreen extends StatelessWidget {
                                           const Gap(25),
                                           const Icon(
                                             Icons.flight_takeoff,
-                                            size: 40,
+                                            size: 30,
                                             color: Colors.white,
                                           ),
                                           const Gap(25),
@@ -244,7 +244,7 @@ class SearchScreen extends StatelessWidget {
                                           const Gap(25),
                                           const Icon(
                                             Icons.flight_land,
-                                            size: 40,
+                                            size: 30,
                                             color: Colors.white,
                                           ),
                                           const Gap(25),

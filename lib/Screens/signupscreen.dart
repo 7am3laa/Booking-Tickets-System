@@ -56,16 +56,14 @@ class RegisterScreen extends StatelessWidget {
                                   .copyWith(fontSize: 35, color: color),
                             ),
                             Container(
-                              height: 60,
-                              width: 60,
+                              height: 50,
+                              width: 50,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: const DecorationImage(
-                                  fit: BoxFit.fitHeight,
-                                  image: AssetImage('assets/images/logo2.png'),
-                                ),
-                                // color: const Color.fromARGB(238, 9, 7, 98),
-                              ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                      fit: BoxFit.fitHeight,
+                                      image: AssetImage(
+                                          'assets/images/logo.png'))),
                             ),
                           ],
                         ),
@@ -193,31 +191,36 @@ class RegisterScreen extends StatelessWidget {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
 
-                                    BlocProvider.of<UserCubit>(context).addUser(
-                                        _fName,
-                                        _lName,
-                                        _userName,
-                                        _phoneNumber,
-                                        _passWord);
+                                          BlocProvider.of<UserCubit>(context)
+                                              .addUser(
+                                                  _fName,
+                                                  _lName,
+                                                  _userName,
+                                                  _phoneNumber,
+                                                  _passWord);
 
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => LoginScreen(),
-                                      ),
-                                    );
-                                  }
-                                },
-                                text: 'Register')
-                          ],
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginScreen(),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      text: 'Register')
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );

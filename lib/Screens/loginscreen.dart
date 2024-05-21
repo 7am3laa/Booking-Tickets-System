@@ -1,11 +1,10 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously, avoid_print
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:projectf/Cubits/User-cubit/user-cubit.dart';
 import 'package:projectf/Cubits/User-cubit/user-state.dart';
-import 'package:projectf/DataBase/databasehelper.dart';
 import 'package:projectf/Screens/signupscreen.dart';
 import 'package:projectf/Screens/splashscreen.dart';
 import 'package:projectf/Widgets/CustomsForAuth/button.dart';
@@ -16,8 +15,6 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
   static const String id = 'loginscreen';
   final GlobalKey<FormState> _formKey = GlobalKey();
-
-  DataBaseHandler dataBaseHandler = DataBaseHandler();
 
   String _userName = '';
   String _passWord = '';
@@ -66,16 +63,13 @@ class LoginScreen extends StatelessWidget {
                             style: Styles.headlineStyle1
                                 .copyWith(fontSize: 35, color: color)),
                         Container(
-                          height: 60,
-                          width: 60,
+                          height: 50,
+                          width: 50,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: const DecorationImage(
-                              fit: BoxFit.fitHeight,
-                              image: AssetImage('assets/images/logo2.png'),
-                            ),
-                            // color: const Color.fromARGB(238, 9, 7, 98),
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  fit: BoxFit.fitHeight,
+                                  image: AssetImage('assets/images/logo.png'))),
                         ),
                       ],
                     ),

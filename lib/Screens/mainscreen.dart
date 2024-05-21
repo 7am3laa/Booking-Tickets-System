@@ -10,7 +10,8 @@ import 'package:projectf/Screens/ticketsscreen.dart';
 
 class MainScreen extends StatefulWidget {
   List<FlightModel>? ticketList = [];
-  MainScreen({Key? key, this.ticketList}) : super(key: key);
+  final bool? isloaded;
+  MainScreen({Key? key, this.ticketList, this.isloaded}) : super(key: key);
   static const String id = 'mainscreen';
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateBodyScreens() {
     _bodyScreens = [
-      HomeScreen(ticketList: widget.ticketList),
+      HomeScreen(isloaded: widget.isloaded, ticketList: widget.ticketList),
       SearchScreen(ticketList: widget.ticketList!),
       const TicketsScreen(),
       const ProfileScreen(),
