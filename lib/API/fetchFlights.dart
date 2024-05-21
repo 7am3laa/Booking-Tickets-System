@@ -12,7 +12,7 @@ class FetchFlights {
 
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     final response = await dio.get(
-        'https://serpapi.com/search.json?engine=google_flights&departure_id=ATL&arrival_id=DXB&outbound_date=$formattedDate&return_date=2024-05-30&gl=eg&currency=EGP&hl=en&api_key=b839351b17c8ded2bc3176ad5bac01ec6422a191d74adb01cab053ec6d5da19e');
+        'https://serpapi.com/search.json?engine=google_flights&departure_id=ATL&arrival_id=DXB&outbound_date=$formattedDate&return_date=2024-05-30&gl=eg&currency=EGP&hl=en&api_key=f28e38473e4b228557b32ff411086ee2c1229fa3ac1760a72c09e4d6b2802253');
     Map<String, dynamic> jsonData = response.data;
     List<dynamic> bestFlights = jsonData['best_flights'] ?? [];
     List<dynamic> otherFlights = jsonData['other_flights'] ?? [];
