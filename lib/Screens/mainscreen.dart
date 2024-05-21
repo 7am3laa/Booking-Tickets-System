@@ -1,17 +1,16 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:projectf/API/flightModel.dart';
-import 'package:projectf/DataBase/user.dart';
 import 'package:projectf/Screens/homescreen.dart';
 import 'package:projectf/Screens/profilescreen.dart';
 import 'package:projectf/Screens/searchscreen.dart';
 import 'package:projectf/Screens/ticketsscreen.dart';
 
 class MainScreen extends StatefulWidget {
-  final Users? user;
   List<FlightModel>? ticketList = [];
-  MainScreen({Key? key, this.user, this.ticketList}) : super(key: key);
+  MainScreen({Key? key, this.ticketList}) : super(key: key);
   static const String id = 'mainscreen';
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -53,9 +52,6 @@ class _MainScreenState extends State<MainScreen> {
             theme.brightness == Brightness.dark ? Colors.black : Colors.white,
         currentIndex: _currentIndex,
         onTap: _onTapItem,
-        elevation: 20,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
         selectedItemColor:
             theme.brightness == Brightness.dark ? Colors.white : Colors.black,
         type: BottomNavigationBarType.fixed,
@@ -64,23 +60,23 @@ class _MainScreenState extends State<MainScreen> {
             : Colors.grey[500],
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_rounded),
-            activeIcon: Icon(Icons.home_outlined),
+            icon: Icon(LineIcons.home),
+            activeIcon: Icon(LineIcons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search_rounded),
-            activeIcon: Icon(Icons.search_outlined),
-            label: "search",
+            icon: Icon(LineIcons.search),
+            activeIcon: Icon(LineIcons.search),
+            label: "Search",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.airplane_ticket_rounded),
-            activeIcon: Icon(Icons.airplane_ticket_outlined),
-            label: "ticket",
+            icon: Icon(LineIcons.alternateTicket),
+            activeIcon: Icon(LineIcons.alternateTicket),
+            label: "Ticket",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            activeIcon: Icon(Icons.person_3_sharp),
+            icon: Icon(LineIcons.user),
+            activeIcon: Icon(LineIcons.user),
             label: "Profile",
           ),
         ],

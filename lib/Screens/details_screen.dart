@@ -177,7 +177,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
         child: widget.ishotel
             ? BlocProvider(
                 create: (context) => HotelCubit(),
