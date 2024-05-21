@@ -11,7 +11,7 @@ import 'package:projectf/Screens/mainscreen.dart';
 class SplashScreen extends StatefulWidget {
   static String id = 'splashscreen';
   List<FlightModel>? ticketList = [];
-
+  List<FlightModel>? flightList = [];
   SplashScreen({super.key});
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void fetchingFlightsData() async {
     try {
       List<FlightModel>? flightList = await FetchFlights().getNews();
-      print('Flight list isssss $flightList');
+      print('Flight list is $flightList');
       widget.ticketList = flightList;
     } catch (error) {
       print('Error fetching flights data: $error');
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void startTimer() {
-    Timer.periodic(Duration(milliseconds: (5000 / 100).round()), (timer) {
+    Timer.periodic(Duration(milliseconds: (10000 / 100).round()), (timer) {
       setState(() {
         if (progressValue >= 1.0) {
           timer.cancel();

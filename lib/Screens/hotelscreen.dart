@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectf/Screens/details_screen.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/hotelcard.dart';
 import 'package:projectf/constant.dart';
 
@@ -19,19 +20,32 @@ class HotelScreen extends StatelessWidget {
         itemCount: hotelList.length,
         itemBuilder: (BuildContext context, int index) {
           final item = hotelList[index];
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                top: 10,
-              ),
-              child: HotelCard(
-                containerWidth: MediaQuery.of(context).size.width - 40,
-                containerHeight: 150,
-                hotelImage: item['image'],
-                hotelName: item['name'],
-                hotelPlace: item['place'],
-                nightPrice: item['price'],
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsScreen(
+                    itemDetails: item,
+                    ishotel: true,
+                  ),
+                ),
+              );
+            },
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  top: 10,
+                ),
+                child: HotelCard(
+                  containerWidth: MediaQuery.of(context).size.width - 40,
+                  containerHeight: 150,
+                  hotelImage: item['image'],
+                  hotelName: item['name'],
+                  hotelPlace: item['place'],
+                  nightPrice: item['price'],
+                ),
               ),
             ),
           );

@@ -13,9 +13,8 @@ import 'package:projectf/Widgets/searchWidegts/search/hotelsearch.dart';
 import 'package:projectf/constant.dart';
 
 class SearchScreen extends StatelessWidget {
-
   List<FlightModel>? ticketList = [];
-  SearchScreen({Key? key,  this.ticketList}) : super(key: key);
+  SearchScreen({Key? key, this.ticketList}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -63,8 +62,8 @@ class SearchScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? Colors.white
-                                      : Colors.grey.shade300,
+                                      ? const Color.fromARGB(238, 9, 7, 98)
+                                      : Colors.grey.shade400,
                                   borderRadius: const BorderRadius.only(
                                     topLeft: Radius.circular(32),
                                     bottomLeft: Radius.circular(32),
@@ -76,10 +75,9 @@ class SearchScreen extends StatelessWidget {
                                   child: Text(
                                     'Airplane Tickets',
                                     style: Styles.headlineStyle2.copyWith(
-                                      color: isSelected
-                                          ? Colors.black
-                                          : Colors.grey.shade600,
-                                    ),
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Colors.grey.shade600),
                                   ),
                                 ),
                               ),
@@ -97,7 +95,7 @@ class SearchScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: isSelected
                                       ? Colors.grey.shade300
-                                      : Colors.white,
+                                      : const Color.fromARGB(238, 9, 7, 98),
                                   borderRadius: const BorderRadius.only(
                                     topRight: Radius.circular(32),
                                     bottomRight: Radius.circular(32),
@@ -111,7 +109,7 @@ class SearchScreen extends StatelessWidget {
                                     style: Styles.headlineStyle2.copyWith(
                                       color: isSelected
                                           ? Colors.grey.shade600
-                                          : Colors.black,
+                                          : Colors.white,
                                     ),
                                   ),
                                 ),
@@ -123,13 +121,76 @@ class SearchScreen extends StatelessWidget {
                       const Gap(25),
                       SizedBox(
                         child: isHotel
-                            ? SizedBox(
-                                child: Center(
-                                    child: Text(
-                                        'Hotels Five Stars \n         In All Cities',
-                                        style: Styles.headlineStyle3.copyWith(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 25))),
+                            ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            const Color.fromARGB(238, 9, 7, 98),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Gap(25),
+                                          const Icon(
+                                            Icons.hotel_class,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                          const Gap(25),
+                                          Text(
+                                            'Five Stars',
+                                            style: const TextStyle(
+                                                    color: Colors.white)
+                                                .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 23),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Gap(25),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20, horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            const Color.fromARGB(238, 9, 7, 98),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          const Gap(25),
+                                          const Icon(
+                                            Icons.hotel_class,
+                                            size: 30,
+                                            color: Colors.white,
+                                          ),
+                                          const Gap(25),
+                                          Text(
+                                            'Four Stars',
+                                            style: const TextStyle(
+                                                    color: Colors.white)
+                                                .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 23),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             : Column(
                                 children: [
@@ -140,7 +201,8 @@ class SearchScreen extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20, horizontal: 10),
                                       decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
+                                        color:
+                                            const Color.fromARGB(238, 9, 7, 98),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Row(
@@ -149,15 +211,17 @@ class SearchScreen extends StatelessWidget {
                                           const Icon(
                                             Icons.flight_takeoff,
                                             size: 40,
-                                            color: Colors.black,
+                                            color: Colors.white,
                                           ),
                                           const Gap(25),
                                           Text(
                                             'Departure',
-                                            style: Styles.headlineStyle3
+                                            style: const TextStyle(
+                                                    color: Colors.white)
                                                 .copyWith(
-                                                    fontWeight: FontWeight.w900,
-                                                    fontSize: 25),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 23),
                                           ),
                                         ],
                                       ),
@@ -171,7 +235,8 @@ class SearchScreen extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20, horizontal: 10),
                                       decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
+                                        color:
+                                            const Color.fromARGB(238, 9, 7, 98),
                                         borderRadius: BorderRadius.circular(20),
                                       ),
                                       child: Row(
@@ -180,15 +245,17 @@ class SearchScreen extends StatelessWidget {
                                           const Icon(
                                             Icons.flight_land,
                                             size: 40,
-                                            color: Colors.black,
+                                            color: Colors.white,
                                           ),
                                           const Gap(25),
                                           Text(
                                             'Arrival',
-                                            style: Styles.headlineStyle3
+                                            style: const TextStyle(
+                                                    color: Colors.white)
                                                 .copyWith(
-                                                    fontWeight: FontWeight.w900,
-                                                    fontSize: 25),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle: FontStyle.italic,
+                                                    fontSize: 23),
                                           ),
                                         ],
                                       ),
@@ -216,12 +283,14 @@ class SearchScreen extends StatelessWidget {
                         : Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>  SearchFlightPage(ticketList: ticketList,),
+                              builder: (context) => SearchFlightPage(
+                                ticketList: ticketList,
+                              ),
                             ),
                           );
                   },
                   text: 'Find Tickets',
-                  color: Colors.blue,
+                  color: const Color.fromARGB(238, 9, 7, 98),
                   textColor: Colors.white,
                   width: AppLayout.getWidth(context),
                 ),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:projectf/API/flightModel.dart';
+import 'package:projectf/Screens/details_screen.dart';
 import 'package:projectf/Widgets/CustomForFlightCards/fullticketcard.dart';
 
 class FlightScreen extends StatelessWidget {
@@ -11,6 +12,26 @@ class FlightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> listFlight = [];
+    for (var flight in ticketList!) {
+      Map<String, dynamic> flightMap = {
+        'arrivalAirportName': flight.arrivalAirportName,
+        'arrivalAirportId': flight.arrivalAirportId,
+        'arrivalTime': flight.arrivalTime,
+        'flightNumber': flight.flightNumber,
+        'departureAirportName': flight.departureAirportName,
+        'departureAirportId': flight.departureAirportId,
+        'departureTime': flight.departureTime,
+        'price': flight.price,
+        'airline': flight.airline,
+        'airlineLogo': flight.airlineLogo,
+        'hoursOfFlightDuration': flight.hoursOfFlightDuration,
+        'minutesOfFlightDuration': flight.minutesOfFlightDuration,
+        'extensions': flight.extensions,
+        'travelClass': flight.travelClass,
+      };
+      listFlight.add(flightMap);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flights"),
@@ -18,23 +39,36 @@ class FlightScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView.builder(
-        itemCount: ticketList!.length,
+        itemCount: listFlight!.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = ticketList![index];
-          return Padding(
-            padding: const EdgeInsets.only(left: 30, top: 10, bottom: 10),
-            child: FullTicketCard(
-              sourceName: item.departureAirportName,
-              sourceCode: item.departureAirportId,
-              destinationName: item.arrivalAirportName,
-              destinationCode: item.arrivalAirportId,
-              hoursOfFlyingTime: item.hoursOfFlightDuration,
-              minutesOfFlyingTime: item.minutesOfFlightDuration,
-              flightDate: item.departureTime.split(' ')[0],
-              flightTime: item.departureTime.split(' ')[1],
-              flightNumber: item.flightNumber,
-              airlineLogo: item.airlineLogo,
-              airlineName: item.airline,
+          final item = listFlight![index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsScreen(
+                    itemDetails: item,
+                    ishotel: false,
+                  ),
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, top: 10, bottom: 10),
+              child: FullTicketCard(
+                sourceName: item['departureAirportName'],
+                sourceCode: item['departureAirportId'],
+                destinationName: item['arrivalAirportName'],
+                destinationCode: item['arrivalAirportId'],
+                hoursOfFlyingTime: item['hoursOfFlightDuration'],
+                minutesOfFlyingTime: item['minutesOfFlightDuration'],
+                flightDate: item['departureTime'].split(' ')[0],
+                flightTime: item['departureTime'].split(' ')[1],
+                flightNumber: item['flightNumber'],
+                airlineName: item['airline'],
+                airlineLogo: item['airlineLogo'],
+              ),
             ),
           );
         },
