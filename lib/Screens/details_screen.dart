@@ -47,61 +47,76 @@ class _DetailsScreenState extends State<DetailsScreen> {
     ThemeData theme = Theme.of(context);
     Color color =
         theme.brightness == Brightness.dark ? Colors.white : Colors.black;
+    Color blueColor = const Color.fromARGB(238, 9, 7, 98);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Details'),
+        centerTitle: true,
+        title: const Text('Ticket Details'),
+        backgroundColor: blueColor,
       ),
       body: widget.ishotel
-          ? SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SearchHotelCard(
-                    image:
-                        'assets/images/hotels/${widget.itemDetails['image'].toString()}',
-                    name: widget.itemDetails['name'].toString(),
-                    place: widget.itemDetails['place'].toString(),
-                    price: widget.itemDetails['price'].toString(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 100.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              if (numberOfTickets > 1) {
-                                numberOfTickets--;
-                                updateTotalPrice();
-                              }
-                            });
-                          },
-                          child: const Icon(Icons.remove),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Nights: ${numberOfTickets.toString()}',
-                                style: Styles.headlineStyle1),
-                            Text('Price: \$${totalPrice.toString()}',
-                                style: Styles.headlineStyle1),
-                          ],
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              numberOfTickets++;
-                              updateTotalPrice();
-                            });
-                          },
-                          child: const Icon(Icons.add),
-                        ),
-                      ],
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SearchHotelCard(
+                      image:
+                          'assets/images/hotels/${widget.itemDetails['image'].toString()}',
+                      name: widget.itemDetails['name'].toString(),
+                      place: widget.itemDetails['place'].toString(),
+                      price: widget.itemDetails['price'].toString(),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 100.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // ignore: avoid_unnecessary_containers
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: blueColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                if (numberOfTickets > 1) {
+                                  numberOfTickets--;
+                                  updateTotalPrice();
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.remove,
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Nights: ${numberOfTickets.toString()}',
+                                  style: Styles.headlineStyle1),
+                              Text('Price: \$${totalPrice.toString()}',
+                                  style: Styles.headlineStyle1),
+                            ],
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: blueColor,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                numberOfTickets++;
+                                updateTotalPrice();
+                              });
+                            },
+                            child: const Icon(Icons.add),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           : SingleChildScrollView(
@@ -141,6 +156,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: blueColor,
+                          ),
                           onPressed: () {
                             setState(() {
                               if (numberOfTickets > 1) {
@@ -162,6 +180,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ],
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: blueColor,
+                          ),
                           onPressed: () {
                             setState(() {
                               numberOfTickets++;
@@ -185,14 +206,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   builder: (context, state) {
                     return ElevatedButton(
                       style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(
-                            const Size(double.infinity, 60),
+                        minimumSize: MaterialStateProperty.all(
+                          const Size(double.infinity, 60),
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          )),
+                        ),
+                        backgroundColor: MaterialStateProperty.all(
+                          blueColor,
+                        ),
+                      ),
                       onPressed: () {
                         BlocProvider.of<HotelCubit>(context).addHotelForUser(
                           widget.itemDetails['name'].toString(),
@@ -223,6 +248,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all(
+                          blueColor,
                         ),
                       ),
                       onPressed: () {
