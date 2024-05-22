@@ -7,8 +7,8 @@ import 'package:projectf/Widgets/CustomForFlightCards/fullticketcard.dart';
 
 class FlightScreen extends StatelessWidget {
   List<FlightModel>? ticketList = [];
-
-  FlightScreen({Key? key, this.ticketList}) : super(key: key);
+  final bool? isLoad;
+  FlightScreen({Key? key, this.ticketList, this.isLoad}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,44 +35,52 @@ class FlightScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flights"),
-        backgroundColor: const Color.fromARGB(255, 1, 14, 25),
+        backgroundColor: const Color.fromARGB(238, 9, 7, 98),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: listFlight.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = listFlight[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsScreen(
-                    itemDetails: item,
-                    ishotel: false,
+      body: isLoad!
+          ? ListView.builder(
+              itemCount: listFlight.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = listFlight[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailsScreen(
+                          itemDetails: item,
+                          ishotel: false,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 10, bottom: 10),
+                    child: FullTicketCard(
+                      sourceName: item['departureAirportName'],
+                      sourceCode: item['departureAirportId'],
+                      destinationName: item['arrivalAirportName'],
+                      destinationCode: item['arrivalAirportId'],
+                      hoursOfFlyingTime: item['hoursOfFlightDuration'],
+                      minutesOfFlyingTime: item['minutesOfFlightDuration'],
+                      flightDate: item['departureTime'].split(' ')[0],
+                      flightTime: item['departureTime'].split(' ')[1],
+                      flightNumber: item['flightNumber'],
+                      airlineName: item['airline'],
+                      airlineLogo: item['airlineLogo'],
+                    ),
                   ),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, top: 10, bottom: 10),
-              child: FullTicketCard(
-                sourceName: item['departureAirportName'],
-                sourceCode: item['departureAirportId'],
-                destinationName: item['arrivalAirportName'],
-                destinationCode: item['arrivalAirportId'],
-                hoursOfFlyingTime: item['hoursOfFlightDuration'],
-                minutesOfFlyingTime: item['minutesOfFlightDuration'],
-                flightDate: item['departureTime'].split(' ')[0],
-                flightTime: item['departureTime'].split(' ')[1],
-                flightNumber: item['flightNumber'],
-                airlineName: item['airline'],
-                airlineLogo: item['airlineLogo'],
+                );
+              },
+            )
+          : const Center(
+              child: Text(
+                'Please Check Your Internet..!',
+                style: TextStyle(fontSize: 25, color: Colors.red),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }

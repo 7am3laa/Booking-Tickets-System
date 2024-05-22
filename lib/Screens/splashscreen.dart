@@ -7,6 +7,8 @@ import 'package:projectf/API/fetchFlights.dart';
 import 'package:projectf/API/flightModel.dart';
 import 'package:projectf/Screens/mainscreen.dart';
 
+import '../constant.dart';
+
 class SplashScreen extends StatefulWidget {
   static String id = 'splashscreen';
   List<FlightModel>? ticketList = [];
@@ -76,42 +78,73 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
           children: [
-            Text(
-              '${(progressValue * 100).round()}%',
-              style:
-                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+            Positioned(
+              top: -570,
+              right: 0,
+              child: Transform.rotate(
+                angle: 2,
+                child: Container(
+                  width: AppLayout.getWidth(context),
+                  height: AppLayout.getHeight(context),
+                  color: const Color.fromARGB(238, 9, 7, 98),
+                ),
+              ),
             ),
-            const SizedBox(height: 20.0),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: CircularProgressIndicator(
-                    value: progressValue,
-                    strokeWidth: 10.0,
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ),
+            Positioned(
+              bottom: -570,
+              left: 0,
+              child: Transform.rotate(
+                angle: 2,
+                child: Container(
+                  width: AppLayout.getWidth(context),
+                  height: AppLayout.getHeight(context),
+                  color: const Color.fromARGB(238, 9, 7, 98),
                 ),
-                Positioned(
-                  child: Transform.rotate(
-                    angle: 90 * pi / 180,
-                    child: const Icon(
-                      Icons.flight,
-                      color: Colors.black,
-                      size: 40.0,
-                    ),
+              ),
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(
+                          value: progressValue,
+                          strokeWidth: 10.0,
+                          backgroundColor: Colors.grey[300],
+                          valueColor:
+                              const AlwaysStoppedAnimation<Color>(Colors.blue),
+                        ),
+                      ),
+                      Positioned(
+                        child: Transform.rotate(
+                          angle: 90 * pi / 180,
+                          child: const Icon(
+                            Icons.flight,
+                            color: Colors.black,
+                            size: 40.0,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20.0),
+                  Text(
+                    '${(progressValue * 100).round()}%',
+                    style: const TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

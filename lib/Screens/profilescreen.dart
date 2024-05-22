@@ -23,6 +23,8 @@ class ProfileScreen extends StatelessWidget {
     ThemeData theme = Theme.of(context);
     Color color =
         theme.brightness == Brightness.dark ? Colors.white : Colors.black;
+    Color bgColor =
+        theme.brightness == Brightness.dark ? Colors.black : Colors.white;
 
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
@@ -30,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
           var user = state.user;
 
           return Scaffold(
+            backgroundColor: bgColor,
             appBar: AppBar(
               title: Text(
                 'Profile',
@@ -53,8 +56,9 @@ class ProfileScreen extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.green, width: 4),
+                                border: Border.all(
+                                    color: const Color.fromARGB(238, 9, 7, 98),
+                                    width: 4),
                               ),
                               child: const CircleAvatar(
                                 backgroundImage:
@@ -90,8 +94,9 @@ class ProfileScreen extends StatelessWidget {
                                 color: theme.brightness == Brightness.dark
                                     ? Colors.white
                                     : Colors.black,
-                                border:
-                                    Border.all(color: Colors.green, width: 4),
+                                border: Border.all(
+                                    color: const Color.fromARGB(238, 9, 7, 98),
+                                    width: 4),
                               ),
                               child: Icon(
                                 Icons.edit,
